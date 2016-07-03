@@ -24,12 +24,13 @@ namespace ProjectUD
             //Делаем недоступным пункты меню(отменить все закачки и стартовать все закачки)
             contextMenuStrip1.Items[3].Enabled = false;
             contextMenuStrip1.Items[4].Enabled = false;
-            
+            this.timer1.Interval = 1000;
         }
 
         private void Manager_Load(object sender, EventArgs e)
         {
             addItemsToListViewFromDB();
+            this.timer1.Start();
         }
 
         private void buttonAddDownloads_Click(object sender, EventArgs e)
@@ -42,8 +43,9 @@ namespace ProjectUD
             if (FormAddDownloads.DialogResult == DialogResult.OK)
             {
                 mYouTubeContext = FormAddDownloads.returnContext();
-                addItemsToListView(mYouTubeContext.Name, mYouTubeContext.Path, mYouTubeContext.Link, 0, true);
-                mYouTubeContext.startDownloadViaWebClient();
+
+                //addItemsToListView(mYouTubeContext.Name, mYouTubeContext.Path, mYouTubeContext.Link, 0, true);
+                //mYouTubeContext.startDownloadViaWebClient();
             }
         }
 
@@ -221,6 +223,11 @@ namespace ProjectUD
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = true;
             contextMenuStrip1.Items[2].Visible = true;
+        }
+
+        private void listViewExDownloads_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
         

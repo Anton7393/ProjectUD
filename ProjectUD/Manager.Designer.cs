@@ -50,6 +50,7 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -124,6 +125,7 @@
             this.listViewExDownloads.TabIndex = 2;
             this.listViewExDownloads.UseCompatibleStateImageBehavior = false;
             this.listViewExDownloads.View = System.Windows.Forms.View.Details;
+            this.listViewExDownloads.SelectedIndexChanged += new System.EventHandler(this.listViewExDownloads_SelectedIndexChanged);
             // 
             // columnHeaderName
             // 
@@ -221,7 +223,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(694, 311);
+            this.ClientSize = new System.Drawing.Size(694, 312);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
@@ -262,6 +264,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
