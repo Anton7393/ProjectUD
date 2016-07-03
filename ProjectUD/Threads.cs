@@ -29,7 +29,7 @@ namespace ProjectUD
         {
             _ui = _ui_ui;
         }
-        public void AddNewYTCDownload(YouTubeContext YTC, int stat)
+        public void AddNewYTCDownload(YouTubeContext YTC)
         {
             int NewId = 0;
             {//Пытаемся сгенерировать новый неповторяющийся айдишник=); 
@@ -123,10 +123,11 @@ namespace ProjectUD
                     object[] qwe = { i, this.LYTC[i], 50 };
                     _ui(qwe.ToList());
                 }
-                Thread.Sleep(2000);
+                this.LYTC[i].startDownload();
+                //Thread.Sleep(2000);
             }
             {
-                MessageBox.Show("_+_", "_-_");
+                //MessageBox.Show("_+_", "_-_");
             }
         }
     }

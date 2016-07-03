@@ -11,6 +11,7 @@ namespace ProjectUD
 {
     public partial class Manager : Form
     {
+        public Threads _Threads;
         private YouTubeContext mYouTubeContext;
 
         public Manager()
@@ -29,8 +30,9 @@ namespace ProjectUD
 
         private void Manager_Load(object sender, EventArgs e)
         {
-            addItemsToListViewFromDB();
+            //addItemsToListViewFromDB();
             this.timer1.Start();
+            _Threads = new Threads(reloadView);
         }
 
         private void buttonAddDownloads_Click(object sender, EventArgs e)
@@ -43,7 +45,7 @@ namespace ProjectUD
             if (FormAddDownloads.DialogResult == DialogResult.OK)
             {
                 mYouTubeContext = FormAddDownloads.returnContext();
-
+                _Threads.AddNewYTCDownload(mYouTubeContext);
                 //addItemsToListView(mYouTubeContext.Name, mYouTubeContext.Path, mYouTubeContext.Link, 0, true);
                 //mYouTubeContext.startDownloadViaWebClient();
             }
@@ -228,6 +230,87 @@ namespace ProjectUD
         private void listViewExDownloads_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+        public void reloadView(List<object> DaTa)//b, 4;t, 2;p, 3;l, 1;
+        {
+            this.timer1.Stop();
+            Action<List<object>> myUII = reloadView;
+            int i = (int)DaTa[0];
+            int _Hallmark = _Threads.ListID[i];
+            YouTubeContext _mYouTubeContext = (YouTubeContext)DaTa[1];
+            int stat = (int)DaTa[2];
+            if (this.InvokeRequired)
+            {
+
+                this.Invoke(myUII, DaTa);
+                return;
+            }
+            string name = _mYouTubeContext.Name;
+            string path = _mYouTubeContext.Path;
+            string link = _mYouTubeContext.Link;
+            name += "             "+Convert.ToString(_Hallmark);
+
+
+            Button b = new Button(); b.Name = "button"; b.Text = "X";
+            TextBox t = new TextBox(); t.ReadOnly = true; t.Text = link;
+            ProgressBar p = new ProgressBar();
+            p.Value = 50;
+            Label l = new Label(); l.Text = path;
+            //(listViewExDownloads.Items[1].)
+            b.Click += delegate
+            {
+                if (_Threads.HallmarkOk(_Hallmark))
+                    if (_Threads.ListYTCStatys[_Threads.GetI(_Hallmark)] == false)
+                    {
+                        //MessageBox.Show(Convert.ToString(_Threads.GetI(_Hallmark)), "");
+                        listViewExDownloads.Items.RemoveAt(_Threads.GetI(_Hallmark));
+                        _Threads.RemoveAt(_Hallmark);
+                        p.Value = 100;
+                        //MessageBox.Show("Поток i=" + Convert.ToString(i) + "; Hallmark=" + Convert.ToString(_Hallmark) + "; - Abort+RemoveAt", "Abort+RemoveAt()");
+                    }
+
+                if (_Threads.HallmarkOk(_Hallmark))
+                    if (_Threads.ListYTCStatys[_Threads.GetI(_Hallmark)] == true)//Abort=>-1
+                    {
+                        b.Text = "D";
+                        _Threads.AbortThread(_Hallmark);
+                        p.Value = 10;
+                        //MessageBox.Show("Поток i=" + Convert.ToString(_Threads.GetI(_Hallmark)) + "; Hallmark=" + Convert.ToString(_Hallmark) + "; - Abort", "Abort()");
+                    }
+            };
+            this.timer1.Tick += delegate
+            {
+                //p.Value = 100;
+
+                try
+                {
+                    if (_Threads.ListDownloadThreads[_Threads.GetI(_Hallmark)].ThreadState == System.Threading.ThreadState.Stopped) p.Value = 100;
+                    if (_Threads.ListDownloadThreads[_Threads.GetI(_Hallmark)].ThreadState == System.Threading.ThreadState.Aborted) p.Value = 0;
+                }
+                catch { }
+            };
+            if (i < listViewExDownloads.Items.Count)
+            {
+                listViewExDownloads.AddEmbeddedControl(b, 4, i);
+                listViewExDownloads.AddEmbeddedControl(t, 2, i);
+                listViewExDownloads.AddEmbeddedControl(p, 3, i);
+                listViewExDownloads.AddEmbeddedControl(l, 1, i);
+                //listViewExDownloads.AddEmbeddedControl(aTimer, 5, i);                
+            }
+            else
+            {
+                if (i == listViewExDownloads.Items.Count)
+                {
+                    listViewExDownloads.Items.Add(name);
+                    listViewExDownloads.AddEmbeddedControl(b, 4, i);
+                    listViewExDownloads.AddEmbeddedControl(t, 2, i);
+                    listViewExDownloads.AddEmbeddedControl(p, 3, i);
+                    listViewExDownloads.AddEmbeddedControl(l, 1, i);
+                    //listViewExDownloads.AddEmbeddedControl(aTimer, 5, i);
+                }
+            }
+            listViewExDownloads.Update();
+            this.timer1.Start();
         }
 
         

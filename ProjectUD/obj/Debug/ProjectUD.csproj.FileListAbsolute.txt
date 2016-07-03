@@ -97,7 +97,6 @@ D:\Git\ProjectUD\ProjectUD\bin\Debug\EntityFramework.SqlServer.dll
 D:\Git\ProjectUD\ProjectUD\bin\Debug\libvideo.dll
 D:\Git\ProjectUD\ProjectUD\bin\Debug\EntityFramework.xml
 D:\Git\ProjectUD\ProjectUD\bin\Debug\EntityFramework.SqlServer.xml
-D:\Git\ProjectUD\ProjectUD\obj\Debug\ProjectUD.csprojResolveAssemblyReference.cache
 D:\Git\ProjectUD\ProjectUD\obj\Debug\ProjectUD.AddDownloads.resources
 D:\Git\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Info.resources
 D:\Git\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Manager.resources
@@ -105,3 +104,8 @@ D:\Git\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Properties.Resources.resources
 D:\Git\ProjectUD\ProjectUD\obj\Debug\ProjectUD.csproj.GenerateResource.Cache
 D:\Git\ProjectUD\ProjectUD\obj\Debug\ProjectUD.exe
 D:\Git\ProjectUD\ProjectUD\obj\Debug\ProjectUD.pdb
+D:\Git\ProjectUD\ProjectUD\bin\Debug\ProjectUD.exe.config
+D:\Git\ProjectUD\ProjectUD\bin\Debug\downloadhistory.mdf
+D:\Git\ProjectUD\ProjectUD\bin\Debug\downloadhistory_log.ldf
+D:\Git\ProjectUD\ProjectUD\bin\Debug\ProjectUD.exe
+D:\Git\ProjectUD\ProjectUD\bin\Debug\ProjectUD.pdb
