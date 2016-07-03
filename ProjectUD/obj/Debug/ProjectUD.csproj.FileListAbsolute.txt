@@ -92,3 +92,39 @@ D:\Work\Программирование\Интенсив\Актуальная �
 D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\obj\Debug\ProjectUD.Manager.resources
 D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\obj\Debug\ProjectUD.Properties.Resources.resources
 D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\obj\Debug\ProjectUD.csproj.GenerateResource.Cache
+C:\Files\Git\ProjectUD\bin\Debug\ProjectUD.exe.config
+C:\Files\Git\ProjectUD\obj\Debug\ProjectUD.exe
+C:\Files\Git\ProjectUD\obj\Debug\ProjectUD.pdb
+C:\Files\Git\ProjectUD\bin\Debug\downloadhistory.mdf
+C:\Files\Git\ProjectUD\bin\Debug\downloadhistory_log.ldf
+C:\Files\Git\ProjectUD\bin\Debug\ProjectUD.exe
+C:\Files\Git\ProjectUD\bin\Debug\ProjectUD.pdb
+C:\Files\Git\ProjectUD\bin\Debug\EntityFramework.dll
+C:\Files\Git\ProjectUD\bin\Debug\EntityFramework.SqlServer.dll
+C:\Files\Git\ProjectUD\bin\Debug\libvideo.dll
+C:\Files\Git\ProjectUD\bin\Debug\EntityFramework.xml
+C:\Files\Git\ProjectUD\bin\Debug\EntityFramework.SqlServer.xml
+C:\Files\Git\ProjectUD\obj\Debug\ProjectUD.csprojResolveAssemblyReference.cache
+C:\Files\Git\ProjectUD\obj\Debug\ProjectUD.AddDownloads.resources
+C:\Files\Git\ProjectUD\obj\Debug\ProjectUD.Info.resources
+C:\Files\Git\ProjectUD\obj\Debug\ProjectUD.Manager.resources
+C:\Files\Git\ProjectUD\obj\Debug\ProjectUD.Properties.Resources.resources
+C:\Files\Git\ProjectUD\obj\Debug\ProjectUD.csproj.GenerateResource.Cache
+D:\Work\Программирование\Интенсив\Egor\ProjectUD\bin\Debug\ProjectUD.exe.config
+D:\Work\Программирование\Интенсив\Egor\ProjectUD\obj\Debug\ProjectUD.exe
+D:\Work\Программирование\Интенсив\Egor\ProjectUD\obj\Debug\ProjectUD.pdb
+D:\Work\Программирование\Интенсив\Egor\ProjectUD\bin\Debug\downloadhistory.mdf
+D:\Work\Программирование\Интенсив\Egor\ProjectUD\bin\Debug\downloadhistory_log.ldf
+D:\Work\Программирование\Интенсив\Egor\ProjectUD\bin\Debug\ProjectUD.exe
+D:\Work\Программирование\Интенсив\Egor\ProjectUD\bin\Debug\ProjectUD.pdb
+D:\Work\Программирование\Интенсив\Egor\ProjectUD\bin\Debug\EntityFramework.dll
+D:\Work\Программирование\Интенсив\Egor\ProjectUD\bin\Debug\EntityFramework.SqlServer.dll
+D:\Work\Программирование\Интенсив\Egor\ProjectUD\bin\Debug\libvideo.dll
+D:\Work\Программирование\Интенсив\Egor\ProjectUD\bin\Debug\EntityFramework.xml
+D:\Work\Программирование\Интенсив\Egor\ProjectUD\bin\Debug\EntityFramework.SqlServer.xml
+D:\Work\Программирование\Интенсив\Egor\ProjectUD\obj\Debug\ProjectUD.csprojResolveAssemblyReference.cache
+D:\Work\Программирование\Интенсив\Egor\ProjectUD\obj\Debug\ProjectUD.AddDownloads.resources
+D:\Work\Программирование\Интенсив\Egor\ProjectUD\obj\Debug\ProjectUD.Info.resources
+D:\Work\Программирование\Интенсив\Egor\ProjectUD\obj\Debug\ProjectUD.Manager.resources
+D:\Work\Программирование\Интенсив\Egor\ProjectUD\obj\Debug\ProjectUD.Properties.Resources.resources
+D:\Work\Программирование\Интенсив\Egor\ProjectUD\obj\Debug\ProjectUD.csproj.GenerateResource.Cache

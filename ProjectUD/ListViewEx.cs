@@ -265,5 +265,18 @@ namespace ProjectUD
 				}
 			}
 		}
-	}
+
+        public int IndexItems(Control c)
+        {
+            int i = 0;
+            foreach (EmbeddedControl ec in _embeddedControls)
+            {
+                if (ec.Control == c)
+                {
+                    i = ec.Item.Index;
+                }
+            }
+            return i;
+        }
+    }
 }
