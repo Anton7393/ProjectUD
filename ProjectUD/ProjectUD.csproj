@@ -146,6 +146,8 @@
       <DependentUpon>downloadhistory.mdf</DependentUpon>
     </Content>
     <Content Include="logo3.ico" />
+    <None Include="Resources\stop.png" />
+    <None Include="Resources\open.png" />
     <None Include="Resources\reload-icon.png" />
     <None Include="Resources\cancel.png" />
     <None Include="Resources\YouTubeError.png" />

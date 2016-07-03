@@ -12,6 +12,8 @@ namespace ProjectUD
     public partial class Manager : Form
     {
         private YouTubeContext mYouTubeContext;
+        //Статусы кнопок
+        private String[] states = { "stop", "reload", "open" };
 
         public Manager()
         {
@@ -34,8 +36,11 @@ namespace ProjectUD
 
         private void buttonAddDownloads_Click(object sender, EventArgs e)
         {
+            contextMenuStrip1.Items[0].Visible = false;
+            contextMenuStrip1.Items[1].Visible = false;
+            contextMenuStrip1.Items[2].Visible = false;
             AddDownloads FormAddDownloads = new AddDownloads();
-            FormAddDownloads.ShowInTaskbar = false;
+      //      FormAddDownloads.ShowInTaskbar = false;
             FormAddDownloads.Owner = this;
             FormAddDownloads.ShowDialog();
 
@@ -45,6 +50,11 @@ namespace ProjectUD
                 addItemsToListView(mYouTubeContext.Name, mYouTubeContext.Path, mYouTubeContext.Link, 0, true);
                 mYouTubeContext.startDownloadViaWebClient();
             }
+
+            contextMenuStrip1.Items[0].Visible = false;
+            contextMenuStrip1.Items[1].Visible = true;
+            contextMenuStrip1.Items[2].Visible = true;
+
         }
 
         private void buttonInfo_Click(object sender, EventArgs e)
@@ -77,19 +87,23 @@ namespace ProjectUD
         private void addItemsToListView(string _name, string _path, string _link, int _proc, bool _completed = false)
         {
             Label label = new Label();
-            Button button = new Button();
+            Button buttonDel = new Button();
             Button buttonReload = new Button();
 
             TextBox textBox = new TextBox();
             ProgressBar progressBar = new ProgressBar();
 
             label.Text = _path;
-            button.Text = "";
-            button.Image = Properties.Resources.cancel;
-            button.Name = "button";
+            buttonDel.Text = "";
+            buttonDel.Image = Properties.Resources.cancel;
+            buttonDel.Name = "delete";
+            buttonDel.Click += new EventHandler(buttonDel_Click);
+
             buttonReload.Text = "";
-            buttonReload.Image = Properties.Resources.reload_icon;
-            buttonReload.Name = "reload";
+            buttonReload.Image = Properties.Resources.stop;
+            buttonReload.Name = states[0];//В имени статус
+            buttonReload.Click += new EventHandler(buttonReload_Click);
+
 
             textBox.ReadOnly = true;
             textBox.Text = _link;
@@ -98,7 +112,8 @@ namespace ProjectUD
             if (_completed)
             {
                 progressBar.Value = 100;
-                listViewExDownloads.AddEmbeddedControl(button, 5, listViewExDownloads.Items.Count - 1);
+                listViewExDownloads.AddEmbeddedControl(buttonDel, 5, listViewExDownloads.Items.Count - 1);
+
                 listViewExDownloads.AddEmbeddedControl(buttonReload, 4, listViewExDownloads.Items.Count - 1);
 
             }
@@ -129,7 +144,7 @@ namespace ProjectUD
             if (this.WindowState == FormWindowState.Minimized)
             {
                 this.WindowState = FormWindowState.Normal;
-                //       this.ShowInTaskbar = false;
+                this.ShowInTaskbar = true;
             }
         }
 
@@ -137,6 +152,7 @@ namespace ProjectUD
         {
             contextMenuStrip1.Items[0].Visible = true;
             contextMenuStrip1.Items[1].Visible = false;
+            notifyIcon1.ShowBalloonTip(3000);
             this.WindowState = FormWindowState.Minimized;
             this.Hide();
             this.ShowInTaskbar = false;
@@ -162,6 +178,7 @@ namespace ProjectUD
         private void Manager_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
+            if(e.Cancel == true)
             HideForm();
         }
 
@@ -174,7 +191,7 @@ namespace ProjectUD
         //Свернуть
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            HideForm();
+        //    HideForm();
         }
 
 
@@ -223,6 +240,40 @@ namespace ProjectUD
             contextMenuStrip1.Items[2].Visible = true;
         }
 
-        
+        private void buttonDel_Click(object sender, EventArgs e)
+        {
+            listViewExDownloads.Items.RemoveAt(listViewExDownloads.IndexItems(sender as Control));
+        }
+
+        private void buttonReload_Click(object sender, EventArgs e)
+        {
+            int i = listViewExDownloads.IndexItems(sender as Control);
+            Button pb = listViewExDownloads.GetEmbeddedControl(4, i) as Button;
+
+            MessageBox.Show(pb.Name);
+
+            //стоп
+            if (pb.Name == states[0])
+            {
+                pb.Image = Properties.Resources.reload_icon;
+                pb.Name = states[1];
+                listViewExDownloads.AddEmbeddedControl(pb, 4, i);
+                listViewExDownloads.Update();
+            }
+            //перезагрузка
+            else if (pb.Name == states[1])
+            {
+                pb.Image = Properties.Resources.stop;
+                pb.Name = states[0];
+                listViewExDownloads.AddEmbeddedControl(pb, 4, i);
+                listViewExDownloads.Update();
+            }
+            //открыть
+            else if (pb.Name == states[2])
+            {
+                System.Diagnostics.Process.Start(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text);
+            }
+        }
+
     }
 }
