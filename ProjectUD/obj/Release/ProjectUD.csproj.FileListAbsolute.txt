@@ -1,0 +1,24 @@
+c:\users\egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\bin\Release\ProjectUD.exe.config
+c:\users\egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\obj\Release\ProjectUD.Properties.Resources.resources
+c:\users\egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\obj\Release\ProjectUD.csproj.GenerateResource.Cache
+c:\users\egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\bin\Release\ProjectUD.exe
+c:\users\egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\bin\Release\ProjectUD.pdb
+c:\users\egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\obj\Release\ProjectUD.exe
+c:\users\egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\obj\Release\ProjectUD.pdb
+C:\Users\Egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\obj\Release\ProjectUD.AddDownloads.resources
+C:\Users\Egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\obj\Release\ProjectUD.Info.resources
+C:\Users\Egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\obj\Release\ProjectUD.Manager.resources
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\bin\Release\ProjectUD.exe.config
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\obj\Release\ProjectUD.exe
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\obj\Release\ProjectUD.pdb
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\bin\Release\ProjectUD.exe.config
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\obj\Release\ProjectUD.exe
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\obj\Release\ProjectUD.pdb
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\obj\Release\ProjectUD.csprojResolveAssemblyReference.cache
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\obj\Release\ProjectUD.AddDownloads.resources
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\obj\Release\ProjectUD.Info.resources
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\obj\Release\ProjectUD.Manager.resources
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\obj\Release\ProjectUD.Properties.Resources.resources
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\obj\Release\ProjectUD.csproj.GenerateResource.Cache
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\bin\Release\ProjectUD.exe
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\bin\Release\ProjectUD.pdb

@@ -1,0 +1,94 @@
+c:\users\egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\bin\Debug\ProjectUD.exe.config
+c:\users\egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\bin\Debug\ProjectUD.exe
+c:\users\egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\bin\Debug\ProjectUD.pdb
+c:\users\egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\obj\Debug\ProjectUD.csprojResolveAssemblyReference.cache
+c:\users\egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Properties.Resources.resources
+c:\users\egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\obj\Debug\ProjectUD.csproj.GenerateResource.Cache
+c:\users\egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\obj\Debug\ProjectUD.exe
+c:\users\egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\obj\Debug\ProjectUD.pdb
+C:\Users\Egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\obj\Debug\ProjectUD.AddDownloads.resources
+C:\Users\Egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Manager.resources
+C:\Users\Egorkka\documents\visual studio 2015\Projects\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Info.resources
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\bin\Debug\ProjectUD.exe.config
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\obj\Debug\ProjectUD.exe
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\obj\Debug\ProjectUD.pdb
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\bin\Debug\ProjectUD.exe
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\bin\Debug\ProjectUD.pdb
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\obj\Debug\ProjectUD.csprojResolveAssemblyReference.cache
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\obj\Debug\ProjectUD.AddDownloads.resources
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Info.resources
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Manager.resources
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Properties.Resources.resources
+C:\Users\Egorkka\Desktop\ProjectUD\ProjectUD\ProjectUD\obj\Debug\ProjectUD.csproj.GenerateResource.Cache
+D:\Work\Программирование\Интенсив\temp\ProjectUD\ProjectUD\ProjectUD\bin\Debug\ProjectUD.exe.config
+D:\Work\Программирование\Интенсив\temp\ProjectUD\ProjectUD\ProjectUD\obj\Debug\ProjectUD.exe
+D:\Work\Программирование\Интенсив\temp\ProjectUD\ProjectUD\ProjectUD\obj\Debug\ProjectUD.pdb
+D:\Work\Программирование\Интенсив\temp\ProjectUD\ProjectUD\ProjectUD\bin\Debug\ProjectUD.exe
+D:\Work\Программирование\Интенсив\temp\ProjectUD\ProjectUD\ProjectUD\bin\Debug\ProjectUD.pdb
+D:\Work\Программирование\Интенсив\temp\ProjectUD\ProjectUD\ProjectUD\obj\Debug\ProjectUD.csprojResolveAssemblyReference.cache
+D:\Work\Программирование\Интенсив\temp\ProjectUD\ProjectUD\ProjectUD\obj\Debug\ProjectUD.AddDownloads.resources
+D:\Work\Программирование\Интенсив\temp\ProjectUD\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Info.resources
+D:\Work\Программирование\Интенсив\temp\ProjectUD\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Manager.resources
+D:\Work\Программирование\Интенсив\temp\ProjectUD\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Properties.Resources.resources
+D:\Work\Программирование\Интенсив\temp\ProjectUD\ProjectUD\ProjectUD\obj\Debug\ProjectUD.csproj.GenerateResource.Cache
+D:\Work\Программирование\Интенсив\temp\ProjectUD\ProjectUD\ProjectUD\bin\Debug\libvideo.dll
+D:\Work\Программирование\Интенсив\temp\ProjectUD\ProjectUD\ProjectUD\bin\Debug\EntityFramework.dll
+D:\Work\Программирование\Интенсив\temp\ProjectUD\ProjectUD\ProjectUD\bin\Debug\EntityFramework.SqlServer.dll
+D:\Work\Программирование\Интенсив\temp\ProjectUD\ProjectUD\ProjectUD\bin\Debug\EntityFramework.xml
+D:\Work\Программирование\Интенсив\temp\ProjectUD\ProjectUD\ProjectUD\bin\Debug\EntityFramework.SqlServer.xml
+D:\Work\Программирование\Интенсив\temp\ProjectUD\ProjectUD\ProjectUD\bin\Debug\downloadhistory.mdf
+D:\Work\Программирование\Интенсив\temp\ProjectUD\ProjectUD\ProjectUD\bin\Debug\downloadhistory_log.ldf
+C:\Users\Egorkka\Desktop\new\ProjectUD\ProjectUD\bin\Debug\ProjectUD.exe.config
+C:\Users\Egorkka\Desktop\new\ProjectUD\ProjectUD\obj\Debug\ProjectUD.exe
+C:\Users\Egorkka\Desktop\new\ProjectUD\ProjectUD\obj\Debug\ProjectUD.pdb
+C:\Users\Egorkka\Desktop\new\ProjectUD\ProjectUD\bin\Debug\downloadhistory.mdf
+C:\Users\Egorkka\Desktop\new\ProjectUD\ProjectUD\bin\Debug\downloadhistory_log.ldf
+C:\Users\Egorkka\Desktop\new\ProjectUD\ProjectUD\bin\Debug\ProjectUD.exe
+C:\Users\Egorkka\Desktop\new\ProjectUD\ProjectUD\bin\Debug\ProjectUD.pdb
+C:\Users\Egorkka\Desktop\new\ProjectUD\ProjectUD\bin\Debug\EntityFramework.dll
+C:\Users\Egorkka\Desktop\new\ProjectUD\ProjectUD\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Egorkka\Desktop\new\ProjectUD\ProjectUD\bin\Debug\libvideo.dll
+C:\Users\Egorkka\Desktop\new\ProjectUD\ProjectUD\bin\Debug\EntityFramework.xml
+C:\Users\Egorkka\Desktop\new\ProjectUD\ProjectUD\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Egorkka\Desktop\new\ProjectUD\ProjectUD\obj\Debug\ProjectUD.csprojResolveAssemblyReference.cache
+C:\Users\Egorkka\Desktop\new\ProjectUD\ProjectUD\obj\Debug\ProjectUD.AddDownloads.resources
+C:\Users\Egorkka\Desktop\new\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Info.resources
+C:\Users\Egorkka\Desktop\new\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Manager.resources
+C:\Users\Egorkka\Desktop\new\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Properties.Resources.resources
+C:\Users\Egorkka\Desktop\new\ProjectUD\ProjectUD\obj\Debug\ProjectUD.csproj.GenerateResource.Cache
+D:\Work\Программирование\Интенсив\Пример трея\ProjectUD\ProjectUD\bin\Debug\ProjectUD.exe.config
+D:\Work\Программирование\Интенсив\Пример трея\ProjectUD\ProjectUD\obj\Debug\ProjectUD.exe
+D:\Work\Программирование\Интенсив\Пример трея\ProjectUD\ProjectUD\obj\Debug\ProjectUD.pdb
+D:\Work\Программирование\Интенсив\Пример трея\ProjectUD\ProjectUD\bin\Debug\downloadhistory.mdf
+D:\Work\Программирование\Интенсив\Пример трея\ProjectUD\ProjectUD\bin\Debug\downloadhistory_log.ldf
+D:\Work\Программирование\Интенсив\Пример трея\ProjectUD\ProjectUD\bin\Debug\ProjectUD.exe
+D:\Work\Программирование\Интенсив\Пример трея\ProjectUD\ProjectUD\bin\Debug\ProjectUD.pdb
+D:\Work\Программирование\Интенсив\Пример трея\ProjectUD\ProjectUD\bin\Debug\EntityFramework.dll
+D:\Work\Программирование\Интенсив\Пример трея\ProjectUD\ProjectUD\bin\Debug\EntityFramework.SqlServer.dll
+D:\Work\Программирование\Интенсив\Пример трея\ProjectUD\ProjectUD\bin\Debug\libvideo.dll
+D:\Work\Программирование\Интенсив\Пример трея\ProjectUD\ProjectUD\bin\Debug\EntityFramework.xml
+D:\Work\Программирование\Интенсив\Пример трея\ProjectUD\ProjectUD\bin\Debug\EntityFramework.SqlServer.xml
+D:\Work\Программирование\Интенсив\Пример трея\ProjectUD\ProjectUD\obj\Debug\ProjectUD.csprojResolveAssemblyReference.cache
+D:\Work\Программирование\Интенсив\Пример трея\ProjectUD\ProjectUD\obj\Debug\ProjectUD.AddDownloads.resources
+D:\Work\Программирование\Интенсив\Пример трея\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Info.resources
+D:\Work\Программирование\Интенсив\Пример трея\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Manager.resources
+D:\Work\Программирование\Интенсив\Пример трея\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Properties.Resources.resources
+D:\Work\Программирование\Интенсив\Пример трея\ProjectUD\ProjectUD\obj\Debug\ProjectUD.csproj.GenerateResource.Cache
+D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\bin\Debug\ProjectUD.exe.config
+D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\obj\Debug\ProjectUD.exe
+D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\obj\Debug\ProjectUD.pdb
+D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\bin\Debug\downloadhistory.mdf
+D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\bin\Debug\downloadhistory_log.ldf
+D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\bin\Debug\ProjectUD.exe
+D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\bin\Debug\ProjectUD.pdb
+D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\bin\Debug\EntityFramework.dll
+D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\bin\Debug\EntityFramework.SqlServer.dll
+D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\bin\Debug\libvideo.dll
+D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\bin\Debug\EntityFramework.xml
+D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\bin\Debug\EntityFramework.SqlServer.xml
+D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\obj\Debug\ProjectUD.csprojResolveAssemblyReference.cache
+D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\obj\Debug\ProjectUD.AddDownloads.resources
+D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\obj\Debug\ProjectUD.Info.resources
+D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\obj\Debug\ProjectUD.Manager.resources
+D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\obj\Debug\ProjectUD.Properties.Resources.resources
+D:\Work\Программирование\Интенсив\Актуальная версия\ProjectUD\obj\Debug\ProjectUD.csproj.GenerateResource.Cache
