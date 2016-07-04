@@ -14,7 +14,7 @@ namespace ProjectUD
         private YouTubeContext mYouTubeContext;
         //Статусы кнопок
         private String[] states = { "stop", "reload", "open" };
-
+        private bool modalOpen = false;
         public Manager()
         {
             InitializeComponent();
@@ -36,6 +36,7 @@ namespace ProjectUD
 
         private void buttonAddDownloads_Click(object sender, EventArgs e)
         {
+            modalOpen = true;
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = false;
             contextMenuStrip1.Items[2].Visible = false;
@@ -50,7 +51,7 @@ namespace ProjectUD
                 addItemsToListView(mYouTubeContext.Name, mYouTubeContext.Path, mYouTubeContext.Link, 0, true);
                 mYouTubeContext.startDownloadViaWebClient();
             }
-
+            modalOpen = false;
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = true;
             contextMenuStrip1.Items[2].Visible = true;
@@ -59,6 +60,7 @@ namespace ProjectUD
 
         private void buttonInfo_Click(object sender, EventArgs e)
         {
+            modalOpen = true;
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = false;
             contextMenuStrip1.Items[2].Visible = false;
@@ -69,7 +71,7 @@ namespace ProjectUD
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = true;
             contextMenuStrip1.Items[2].Visible = true;
-
+            modalOpen = false;
         }
 
         private void addItemsToListViewFromDB()
@@ -191,7 +193,7 @@ namespace ProjectUD
         //Свернуть
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-        //    HideForm();
+            HideForm();
         }
 
 
@@ -204,7 +206,7 @@ namespace ProjectUD
 
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left && modalOpen == false)
             {
 
                 if (this.WindowState == FormWindowState.Minimized)
@@ -220,6 +222,8 @@ namespace ProjectUD
 
         private void toolStripMenuItem6_Click(object sender, EventArgs e)
         {
+
+            modalOpen = true;
             ShowForm();
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = false;
@@ -238,6 +242,7 @@ namespace ProjectUD
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = true;
             contextMenuStrip1.Items[2].Visible = true;
+            modalOpen = false;
         }
 
         private void buttonDel_Click(object sender, EventArgs e)
