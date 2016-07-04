@@ -46,32 +46,36 @@ namespace ProjectUD
 
         private void buttonAddDownload_Click(object sender, EventArgs e)
         {
-
-            if (textBoxName.Text != "")
+            if (File.Exists("файл.exe"))
             {
-                if (CorrectFileName(textBoxName.Text))
-                    MessageBox.Show("Имя файла не должно содержать:\n" + @"               \ / : ? " + '"' + @" < > |");
+                System.Windows.Forms.MessageBox.Show("","");
+            }
+            if(false)
+            {
+                if (textBoxName.Text != "")
+                {
+                    if (CorrectFileName(textBoxName.Text))
+                        MessageBox.Show("Имя файла не должно содержать:\n" + @"               \ / : ? " + '"' + @" < > |");
+                    else
+                    {
+                        Manager main = this.Owner as Manager;
+                        if (main != null)
+                        {
+                            //main.AddItemListViewEx(textBoxName.Text, textBoxPath.Text, textBoxLink.Text, 0);
+
+                        }
+                        mYouTubeContext.Path = textBoxPath.Text;
+                        mYouTubeContext.Name = textBoxName.Text;
+                        mYouTubeContext.pathBuilder();
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
+                    }
+                }
                 else
                 {
-                    Manager main = this.Owner as Manager;
-                    if (main != null)
-                    {
-                        //main.AddItemListViewEx(textBoxName.Text, textBoxPath.Text, textBoxLink.Text, 0);
-
-                    }
-                    mYouTubeContext.Path = textBoxPath.Text;
-                    mYouTubeContext.Name = textBoxName.Text;
-                    mYouTubeContext.pathBuilder();
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
+                    MessageBox.Show("Пустое имя файла");
                 }
             }
-            else
-            {
-                MessageBox.Show("Пустое имя файла");
-
-            }
-
         }
 
         private void buttonPath_Click(object sender, EventArgs e)

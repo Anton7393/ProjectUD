@@ -143,9 +143,14 @@ namespace ProjectUD
                     //MessageBox.Show(pb.Name);
                     if (pb.Name == states[0]) { bttnReload_if0(i); }//стоп
                     else if (pb.Name == states[1]) { bttnReload_if1(i); }//перезагрузка
-                    else if (pb.Name == states[2])//открыть
+                    else if (pb.Name == states[2])
                     {
-                        System.Diagnostics.Process.Start(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text);
+                        if (System.IO.File.Exists(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text))
+                            System.Diagnostics.Process.Start(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text);
+                        else {
+                            MessageBox.Show(this, "Файл "+ '"' + listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text + '"' + "не найден.",
+                              "Файл не найден", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
                     }
                 };
             this.button2.Click += delegate(object sender, EventArgs e)
