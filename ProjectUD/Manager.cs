@@ -6,7 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms; 
+using System.Windows.Forms;
+using System.IO;
+
 namespace ProjectUD
 {
     public partial class Manager : Form
@@ -200,8 +202,9 @@ namespace ProjectUD
         //Выход 
         private void toolStripMenuItem5_Click(object sender, EventArgs e)
         {
-            Application.ExitThread();
+            this.ShowInTaskbar = false;
             Application.Exit();
+            Application.ExitThread();
         }
 
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
@@ -276,7 +279,12 @@ namespace ProjectUD
             //открыть
             else if (pb.Name == states[2])
             {
-                System.Diagnostics.Process.Start(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text);
+                if (File.Exists(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text))
+                    System.Diagnostics.Process.Start(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text);
+                else {
+                    MessageBox.Show(this, "Файл "+ '"' + listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text + '"' + "не найден.",
+                      "Файл не найден", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
         }
 
