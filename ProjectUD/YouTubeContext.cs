@@ -72,12 +72,12 @@ namespace ProjectUD
         {
             Date = DateTime.Now;
             File.WriteAllBytes(Path, mSelectedVideo.GetBytes());
-            
         }
 
         public void startDownloadViaWebClient()
         {
             Date = DateTime.Now;
+            this.mClient = new WebClient();
             this.mClient.DownloadFileAsync(new Uri(mSelectedVideo.Uri), Path);
         }
         public void stopDownloadViaWebClient()
