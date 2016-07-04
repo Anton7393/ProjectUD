@@ -16,7 +16,22 @@ namespace ProjectUD
         private List<YouTubeVideo> mVideoList;
         private List<YouTubeVideo> mSortedVideoList;
         private Dictionary<string, YouTubeVideo> mVideoDictionary;
-
+        private WebClient mClient = new WebClient();
+        private Action<object, System.Net.DownloadProgressChangedEventArgs> mActionProgressBar = delegate(object sender, System.Net.DownloadProgressChangedEventArgs e) { };
+        public void SetProgressBarAction(Action<object, System.Net.DownloadProgressChangedEventArgs> _mActionProgressBar){this.mActionProgressBar+=_mActionProgressBar;}
+        
+        public YouTubeContext(string Name, string Path, string Link)
+        {
+            this.Name = Name;
+            this.Path = Path;
+            this.Link = Link;
+            mYouTube = YouTube.Default;
+            ResolutionList = new List<string>();
+            mVideoList = new List<YouTubeVideo>();
+            mSortedVideoList = new List<YouTubeVideo>();
+            mVideoDictionary = new Dictionary<string, YouTubeVideo>();
+            mSelectedVideo = null;
+        }
         public YouTubeContext()
         {
             mYouTube = YouTube.Default;
@@ -59,14 +74,18 @@ namespace ProjectUD
         {
             Date = DateTime.Now;
             File.WriteAllBytes(Path, mSelectedVideo.GetBytes());
-            
         }
 
         public void startDownloadViaWebClient()
         {
             Date = DateTime.Now;
-            var client = new WebClient();
-            client.DownloadFileAsync(new Uri(mSelectedVideo.Uri), Path);
+            this.mClient = new WebClient();
+            this.mClient.DownloadFileAsync(new Uri(mSelectedVideo.Uri), Path);
+            mClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(mActionProgressBar);
+        }
+        public void stopDownloadViaWebClient()
+        {            
+            this.mClient.CancelAsync();
         }
 
         public List<string> ResolutionList { get; private set; }
@@ -99,7 +118,10 @@ namespace ProjectUD
 
         private void compileResolutionAndVideoLists()
         {
-            foreach(var videoItem in mVideoDictionary)
+            ResolutionList.Clear();
+            mSortedVideoList.Clear();
+
+            foreach (var videoItem in mVideoDictionary)
             {
                 ResolutionList.Add(videoItem.Key);
                 mSortedVideoList.Add(videoItem.Value);

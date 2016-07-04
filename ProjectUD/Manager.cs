@@ -11,27 +11,27 @@ namespace ProjectUD
 {
     public partial class Manager : Form
     {
-        private YouTubeContext mYouTubeContext;
+//        private YouTubeContext _YTC;
         //Статусы кнопок
         private String[] states = { "stop", "reload", "open" };
-
+        public bool usbd = true;
+        private string button2Name = "";
         public Manager()
         {
+            button2Name = states[0];
             InitializeComponent();
-            //addItemsToListViewFromDB();
+            if (usbd) addItemsToListViewFromDB();
             this.Resize += new System.EventHandler(this.Manager_Resize);
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = true;
-   
             //Делаем недоступным пункты меню(отменить все закачки и стартовать все закачки)
             contextMenuStrip1.Items[3].Enabled = false;
             contextMenuStrip1.Items[4].Enabled = false;
-            
         }
-
         private void Manager_Load(object sender, EventArgs e)
         {
-            addItemsToListViewFromDB();
+            //if (usbd)addItemsToListViewFromDB();
+            //this.button2.Image = Properties.Resources.stop;this.button1.Image = Properties.Resources.stop;
         }
 
         private void buttonAddDownloads_Click(object sender, EventArgs e)
@@ -44,11 +44,14 @@ namespace ProjectUD
             FormAddDownloads.Owner = this;
             FormAddDownloads.ShowDialog();
 
+            
             if (FormAddDownloads.DialogResult == DialogResult.OK)
             {
-                mYouTubeContext = FormAddDownloads.returnContext();
-                addItemsToListView(mYouTubeContext.Name, mYouTubeContext.Path, mYouTubeContext.Link, 0, true);
-                mYouTubeContext.startDownloadViaWebClient();
+                YouTubeContext _YTC = FormAddDownloads.returnContext();
+                if (usbd) (new DataContext()).addDataToDB(_YTC);
+                addItemsToListView(_YTC, 0, true);
+                _YTC.startDownloadViaWebClient();
+                
             }
 
             contextMenuStrip1.Items[0].Visible = false;
@@ -76,59 +79,124 @@ namespace ProjectUD
         {
             using (var database = new DataContext())
             {
-                var videoData = database.VideoDatas;
+                var videoData = database.getDataFromDB();//VideoDatas;
                 foreach (var videoItem in videoData)
                 {
-                    addItemsToListView(videoItem.Name, videoItem.Path, videoItem.Link, 100, true);
+                    addItemsToListView(new YouTubeContext(videoItem.Name, videoItem.Path, videoItem.Link), 100, true);
                 }
             }
         }
-
-        private void addItemsToListView(string _name, string _path, string _link, int _proc, bool _completed = false)
+        private void addItemsToListView(YouTubeContext _YTC, int _proc, bool _completed = false)
         {
+            string _name = _YTC.Name;
+            string _path = _YTC.Path;
+            string _link = _YTC.Link;
             Label label = new Label();
+                label.Text = _path;
             Button buttonDel = new Button();
+                buttonDel.Text = "";
+                buttonDel.Image = Properties.Resources.cancel;
+                buttonDel.Name = "delete";
+                Action<object, EventArgs> bttnDel = delegate(object sender, EventArgs e)
+                {
+                    _YTC.stopDownloadViaWebClient();
+                    if (usbd) (new DataContext()).removeDataFromDB(_YTC);
+                    listViewExDownloads.Items.RemoveAt(listViewExDownloads.IndexItems(sender as Control));
+                };
+                buttonDel.Click += new EventHandler(bttnDel);//на кнопку отмены одного скачивания
+                this.button1.Click += new EventHandler(bttnDel);//на кнопку отмены всех скачиваний
+            
             Button buttonReload = new Button();
-
+                buttonReload.Text = "";
+                buttonReload.Image = Properties.Resources.stop;
+                buttonReload.Name = states[0];//В имени статус
+            Action<int> bttnReload_if1 = delegate(int i)
+            {
+                //int i = listViewExDownloads.IndexItems(sender as Control);
+                Button pb = listViewExDownloads.GetEmbeddedControl(4, i) as Button;
+                if (pb.Name == states[1])
+                {
+                    pb.Image = Properties.Resources.stop;
+                        pb.Name = states[0];
+                        listViewExDownloads.AddEmbeddedControl(pb, 4, i);
+                        listViewExDownloads.Update();
+                        _YTC.stopDownloadViaWebClient();
+                        _YTC.startDownloadViaWebClient();
+                }
+            };
+            Action<int > bttnReload_if0 = delegate(int i)
+            {
+                //int i = listViewExDownloads.IndexItems(sender as Control);
+                Button pb = listViewExDownloads.GetEmbeddedControl(4, i) as Button;
+                if (pb.Name == states[0])
+                {
+                    _YTC.stopDownloadViaWebClient();
+                    pb.Image = Properties.Resources.reload_icon;
+                    pb.Name = states[1];
+                    listViewExDownloads.AddEmbeddedControl(pb, 4, i);
+                    listViewExDownloads.Update();
+                }
+            };
+            buttonReload.Click += delegate(object sender, EventArgs e)
+                {//этот Action нужно подключить в два места.
+                    int i = listViewExDownloads.IndexItems(sender as Control);
+                    Button pb = listViewExDownloads.GetEmbeddedControl(4, i) as Button;
+                    //MessageBox.Show(pb.Name);
+                    if (pb.Name == states[0]) { bttnReload_if0(i); }//стоп
+                    else if (pb.Name == states[1]) { bttnReload_if1(i); }//перезагрузка
+                    else if (pb.Name == states[2])
+                    {
+                        if (System.IO.File.Exists(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text))
+                            System.Diagnostics.Process.Start(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text);
+                        else {
+                            MessageBox.Show(this, "Файл "+ '"' + listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text + '"' + "не найден.",
+                              "Файл не найден", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                    }
+                };
+            this.button2.Click += delegate(object sender, EventArgs e)
+            {
+                if (this.button2Name == states[0]) 
+                {
+                    for (int i = 0; i < this.listViewExDownloads.Items.Count; i++)
+                        bttnReload_if0(i);
+                }
+                else
+                    if (this.button2Name == states[1])
+                    {
+                        for (int i = 0; i < this.listViewExDownloads.Items.Count; i++)
+                            bttnReload_if1(i);
+                    }
+            };
             TextBox textBox = new TextBox();
+                textBox.ReadOnly = true;
+                textBox.Text = _link;
             ProgressBar progressBar = new ProgressBar();
-
-            label.Text = _path;
-            buttonDel.Text = "";
-            buttonDel.Image = Properties.Resources.cancel;
-            buttonDel.Name = "delete";
-            buttonDel.Click += new EventHandler(buttonDel_Click);
-
-            buttonReload.Text = "";
-            buttonReload.Image = Properties.Resources.stop;
-            buttonReload.Name = states[0];//В имени статус
-            buttonReload.Click += new EventHandler(buttonReload_Click);
-
-
-            textBox.ReadOnly = true;
-            textBox.Text = _link;
+            _YTC.SetProgressBarAction(
+                (Action<object, System.Net.DownloadProgressChangedEventArgs>)
+                delegate(object sender, System.Net.DownloadProgressChangedEventArgs e)
+                {progressBar.Value = e.ProgressPercentage;}
+            );
             listViewExDownloads.Items.Add(_name);
-
             if (_completed)
             {
-                progressBar.Value = 100;
-                listViewExDownloads.AddEmbeddedControl(buttonDel, 5, listViewExDownloads.Items.Count - 1);
-
-                listViewExDownloads.AddEmbeddedControl(buttonReload, 4, listViewExDownloads.Items.Count - 1);
-
+                //progressBar.Value = 100;
+                buttonDel.Visible = false;
+                buttonReload.Visible = false;
             }
             else
             {
-                progressBar.Value = _proc; //Костыль!!!
+                //progressBar.Value = _proc; //Костыль!!!
 
             }
 
+            listViewExDownloads.AddEmbeddedControl(buttonDel, 5, listViewExDownloads.Items.Count - 1);
+            listViewExDownloads.AddEmbeddedControl(buttonReload, 4, listViewExDownloads.Items.Count - 1);
             listViewExDownloads.AddEmbeddedControl(textBox, 2, listViewExDownloads.Items.Count - 1);
             listViewExDownloads.AddEmbeddedControl(progressBar, 3, listViewExDownloads.Items.Count - 1);
             listViewExDownloads.AddEmbeddedControl(label, 1, listViewExDownloads.Items.Count - 1);
             listViewExDownloads.Update();
         }
-
         private void clearItemsToListView()
         {
             listViewExDownloads.Clear();
@@ -191,7 +259,7 @@ namespace ProjectUD
         //Свернуть
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-        //    HideForm();
+            HideForm();
         }
 
 
@@ -231,48 +299,47 @@ namespace ProjectUD
 
             if (FormAddDownloads.DialogResult == DialogResult.OK)
             {
-                mYouTubeContext = FormAddDownloads.returnContext();
-                addItemsToListView(mYouTubeContext.Name, mYouTubeContext.Path, mYouTubeContext.Link, 0, true);
-                mYouTubeContext.startDownload();
+                /*
+                _YTC = FormAddDownloads.returnContext();
+                addItemsToListView(_YTC.Name, _YTC.Path, _YTC.Link, 0, true);
+                _YTC.startDownload();
+                 */ 
             }
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = true;
             contextMenuStrip1.Items[2].Visible = true;
         }
 
-        private void buttonDel_Click(object sender, EventArgs e)
+        private void panel2_Paint(object sender, PaintEventArgs e)
         {
-            listViewExDownloads.Items.RemoveAt(listViewExDownloads.IndexItems(sender as Control));
+
         }
-
-        private void buttonReload_Click(object sender, EventArgs e)
+        
+        private void button2_Click(object sender, EventArgs e)
         {
-            int i = listViewExDownloads.IndexItems(sender as Control);
-            Button pb = listViewExDownloads.GetEmbeddedControl(4, i) as Button;
-
-            MessageBox.Show(pb.Name);
-
-            //стоп
-            if (pb.Name == states[0])
+            if (button2Name == states[0])
             {
-                pb.Image = Properties.Resources.reload_icon;
-                pb.Name = states[1];
-                listViewExDownloads.AddEmbeddedControl(pb, 4, i);
-                listViewExDownloads.Update();
+                button2.Image = Properties.Resources.reload_icon;
+                button2Name = states[1];
+                //button2.Image = Properties.Resources.stop;
+                //button2Name = states[0];
             }
             //перезагрузка
-            else if (pb.Name == states[1])
+            else if (button2Name == states[1])
             {
-                pb.Image = Properties.Resources.stop;
-                pb.Name = states[0];
-                listViewExDownloads.AddEmbeddedControl(pb, 4, i);
-                listViewExDownloads.Update();
+                button2.Image = Properties.Resources.stop;
+                button2Name = states[0];
             }
             //открыть
-            else if (pb.Name == states[2])
+            else if (button2.Name == states[2])
             {
                 System.Diagnostics.Process.Start(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text);
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
 
     }

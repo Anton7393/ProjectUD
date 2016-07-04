@@ -204,6 +204,7 @@
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(342, 29);
             this.textBoxName.TabIndex = 5;
+            this.textBoxName.TextChanged += new System.EventHandler(this.textBoxName_TextChanged);
             // 
             // label6
             // 
@@ -270,7 +271,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(657, 356);
+            this.ClientSize = new System.Drawing.Size(657, 357);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.pictureBox1);
@@ -284,6 +285,7 @@
             this.MinimumSize = new System.Drawing.Size(673, 395);
             this.Name = "AddDownloads";
             this.Text = "Добавить закачку";
+            this.Load += new System.EventHandler(this.AddDownloads_Load);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
