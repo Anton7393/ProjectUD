@@ -216,10 +216,10 @@ namespace ProjectUD
         private void AddDownloads_Load(object sender, EventArgs e)
         {
 
-            //textBoxLink.Text = "https://www.youtube.com/watch?v=SsRYekfVxgo";
-            //pictureBox2.Image = Properties.Resources.YouTube_logo_full_color;
-            //InspectionURL();
-            //this.textBoxName.Focus();
+            textBoxLink.Text = "https://www.youtube.com/watch?v=SsRYekfVxgo";
+            pictureBox2.Image = Properties.Resources.YouTube_logo_full_color;
+            InspectionURL();
+            this.textBoxName.Focus();
         }    
     }
 }
