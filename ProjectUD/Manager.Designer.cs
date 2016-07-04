@@ -287,6 +287,7 @@
         private System.Windows.Forms.Button buttonInfo;
         private System.Windows.Forms.ColumnHeader columnHeaderRelaod;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
+        /// <summary>Трей</summary>
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;

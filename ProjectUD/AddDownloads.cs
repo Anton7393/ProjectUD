@@ -46,11 +46,23 @@ namespace ProjectUD
 
         private void buttonAddDownload_Click(object sender, EventArgs e)
         {
-            if (File.Exists("файл.exe"))
+            bool flsg = true;
+            mYouTubeContext.Path = textBoxPath.Text;
+            mYouTubeContext.Name = textBoxName.Text;
+            mYouTubeContext.pathBuilder();
+            if (File.Exists(this.mYouTubeContext.Path))
             {
-                System.Windows.Forms.MessageBox.Show("","");
+                flsg = false;
+                if (System.Windows.Forms.MessageBox.Show(
+                    "Файл с таким именем уже существует.\n Желаете перезаписать?", "",
+                    System.Windows.Forms.MessageBoxButtons.YesNo, 
+                    System.Windows.Forms.MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    File.Delete(this.mYouTubeContext.Path);
+                    flsg = true;
+                }
             }
-            if(false)
+            if (flsg)
             {
                 if (textBoxName.Text != "")
                 {
@@ -194,6 +206,15 @@ namespace ProjectUD
         private void textBoxName_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void AddDownloads_Load(object sender, EventArgs e)
+        {
+
+            textBoxLink.Text = "https://www.youtube.com/watch?v=SsRYekfVxgo";
+            pictureBox2.Image = Properties.Resources.YouTube_logo_full_color;
+            InspectionURL();
+            this.textBoxName.Focus();
         }    
     }
 }

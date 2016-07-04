@@ -285,6 +285,7 @@
             this.MinimumSize = new System.Drawing.Size(673, 395);
             this.Name = "AddDownloads";
             this.Text = "Добавить закачку";
+            this.Load += new System.EventHandler(this.AddDownloads_Load);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
