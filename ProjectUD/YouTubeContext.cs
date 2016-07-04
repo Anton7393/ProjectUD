@@ -16,7 +16,20 @@ namespace ProjectUD
         private List<YouTubeVideo> mVideoList;
         private List<YouTubeVideo> mSortedVideoList;
         private Dictionary<string, YouTubeVideo> mVideoDictionary;
+        private WebClient mClient = new WebClient();
 
+        public YouTubeContext(string Name, string Path, string Link)
+        {
+            this.Name=Name;
+            this.Path=Path;
+            this.Link = Link;
+            mYouTube = YouTube.Default;
+            ResolutionList = new List<string>();
+            mVideoList = new List<YouTubeVideo>();
+            mSortedVideoList = new List<YouTubeVideo>();
+            mVideoDictionary = new Dictionary<string, YouTubeVideo>();
+            mSelectedVideo = null;
+        }
         public YouTubeContext()
         {
             mYouTube = YouTube.Default;
@@ -65,8 +78,11 @@ namespace ProjectUD
         public void startDownloadViaWebClient()
         {
             Date = DateTime.Now;
-            var client = new WebClient();
-            client.DownloadFileAsync(new Uri(mSelectedVideo.Uri), Path);
+            this.mClient.DownloadFileAsync(new Uri(mSelectedVideo.Uri), Path);
+        }
+        public void stopDownloadViaWebClient()
+        {            
+            this.mClient.CancelAsync();
         }
 
         public List<string> ResolutionList { get; private set; }
