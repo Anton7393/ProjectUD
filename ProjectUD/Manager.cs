@@ -51,6 +51,7 @@ namespace ProjectUD
                 if (usbd) (new DataContext()).addDataToDB(_YTC);
                 addItemsToListView(_YTC, 0, true);
                 _YTC.startDownloadViaWebClient();
+                
             }
 
             contextMenuStrip1.Items[0].Visible = false;
@@ -171,16 +172,21 @@ namespace ProjectUD
                 textBox.ReadOnly = true;
                 textBox.Text = _link;
             ProgressBar progressBar = new ProgressBar();
+            _YTC.SetProgressBarAction(
+                (Action<object, System.Net.DownloadProgressChangedEventArgs>)
+                delegate(object sender, System.Net.DownloadProgressChangedEventArgs e)
+                {progressBar.Value = e.ProgressPercentage;}
+            );
             listViewExDownloads.Items.Add(_name);
             if (_completed)
             {
-                progressBar.Value = 100;
+                //progressBar.Value = 100;
                 buttonDel.Visible = false;
                 buttonReload.Visible = false;
             }
             else
             {
-                progressBar.Value = _proc; //Костыль!!!
+                //progressBar.Value = _proc; //Костыль!!!
 
             }
 

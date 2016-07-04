@@ -36,6 +36,13 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.buttonInfo = new System.Windows.Forms.Button();
+            this.listViewExDownloads = new ProjectUD.ListViewEx();
+            this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderLink = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderProcess = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderButton = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderRelaod = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -45,13 +52,6 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
-            this.listViewExDownloads = new ProjectUD.ListViewEx();
-            this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderLink = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderProcess = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderButton = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderRelaod = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -132,6 +132,58 @@
             this.buttonInfo.UseVisualStyleBackColor = true;
             this.buttonInfo.Click += new System.EventHandler(this.buttonInfo_Click);
             // 
+            // listViewExDownloads
+            // 
+            this.listViewExDownloads.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewExDownloads.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeaderName,
+            this.columnHeaderPath,
+            this.columnHeaderLink,
+            this.columnHeaderProcess,
+            this.columnHeaderButton,
+            this.columnHeaderRelaod});
+            this.listViewExDownloads.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
+            this.listViewExDownloads.HideSelection = false;
+            this.listViewExDownloads.HoverSelection = true;
+            this.listViewExDownloads.Location = new System.Drawing.Point(3, 62);
+            this.listViewExDownloads.Name = "listViewExDownloads";
+            this.listViewExDownloads.Size = new System.Drawing.Size(662, 218);
+            this.listViewExDownloads.TabIndex = 2;
+            this.listViewExDownloads.UseCompatibleStateImageBehavior = false;
+            this.listViewExDownloads.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeaderName
+            // 
+            this.columnHeaderName.Text = "Имя";
+            this.columnHeaderName.Width = 86;
+            // 
+            // columnHeaderPath
+            // 
+            this.columnHeaderPath.Text = "Путь";
+            this.columnHeaderPath.Width = 180;
+            // 
+            // columnHeaderLink
+            // 
+            this.columnHeaderLink.Text = "Ссылка";
+            this.columnHeaderLink.Width = 164;
+            // 
+            // columnHeaderProcess
+            // 
+            this.columnHeaderProcess.Text = "Процесс";
+            this.columnHeaderProcess.Width = 123;
+            // 
+            // columnHeaderButton
+            // 
+            this.columnHeaderButton.Text = "";
+            this.columnHeaderButton.Width = 38;
+            // 
+            // columnHeaderRelaod
+            // 
+            this.columnHeaderRelaod.Text = "";
+            this.columnHeaderRelaod.Width = 38;
+            // 
             // notifyIcon1
             // 
             this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
@@ -195,58 +247,6 @@
             this.toolStripMenuItem5.Size = new System.Drawing.Size(202, 22);
             this.toolStripMenuItem5.Text = "Выход";
             this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
-            // 
-            // listViewExDownloads
-            // 
-            this.listViewExDownloads.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listViewExDownloads.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeaderName,
-            this.columnHeaderPath,
-            this.columnHeaderLink,
-            this.columnHeaderProcess,
-            this.columnHeaderButton,
-            this.columnHeaderRelaod});
-            this.listViewExDownloads.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.listViewExDownloads.HideSelection = false;
-            this.listViewExDownloads.HoverSelection = true;
-            this.listViewExDownloads.Location = new System.Drawing.Point(3, 62);
-            this.listViewExDownloads.Name = "listViewExDownloads";
-            this.listViewExDownloads.Size = new System.Drawing.Size(662, 218);
-            this.listViewExDownloads.TabIndex = 2;
-            this.listViewExDownloads.UseCompatibleStateImageBehavior = false;
-            this.listViewExDownloads.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeaderName
-            // 
-            this.columnHeaderName.Text = "Имя";
-            this.columnHeaderName.Width = 86;
-            // 
-            // columnHeaderPath
-            // 
-            this.columnHeaderPath.Text = "Путь";
-            this.columnHeaderPath.Width = 180;
-            // 
-            // columnHeaderLink
-            // 
-            this.columnHeaderLink.Text = "Ссылка";
-            this.columnHeaderLink.Width = 164;
-            // 
-            // columnHeaderProcess
-            // 
-            this.columnHeaderProcess.Text = "Процесс";
-            this.columnHeaderProcess.Width = 123;
-            // 
-            // columnHeaderButton
-            // 
-            this.columnHeaderButton.Text = "";
-            this.columnHeaderButton.Width = 38;
-            // 
-            // columnHeaderRelaod
-            // 
-            this.columnHeaderRelaod.Text = "";
-            this.columnHeaderRelaod.Width = 38;
             // 
             // Manager
             // 
