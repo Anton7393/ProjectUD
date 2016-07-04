@@ -41,6 +41,7 @@ namespace ProjectUD
             textBoxLink.Text = Clipboard.GetText();
             pictureBox2.Image = Properties.Resources.YouTube_logo_full_color;
             InspectionURL();
+            this.textBoxName.Focus();
         }
 
         private void buttonAddDownload_Click(object sender, EventArgs e)
@@ -184,6 +185,11 @@ namespace ProjectUD
             }
             else
                 return false;
+        }
+
+        private void textBoxName_TextChanged(object sender, EventArgs e)
+        {
+
         }    
     }
 }
