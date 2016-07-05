@@ -130,6 +130,11 @@ namespace ProjectUD
 
         public void InspectionURL()
         {
+            if (!Helper.isValidUrl(textBoxLink.Text) || !textBoxLink.Text.ToLower().Contains("www.youtube.com/watch?"))
+            {
+                textBoxLink.Text = "https://www.youtube.com/watch?v="+textBoxLink.Text.Split('/')[3];
+                //System.Windows.Forms.MessageBox.Show("textBoxLink.Text\n" + textBoxLink.Text.Split('/')[3], "");
+            }
             try
             {
                 mYouTubeContext.extractYouTubeMeta(textBoxLink.Text);
@@ -233,11 +238,15 @@ namespace ProjectUD
         private void textBoxName_TextChanged(object sender, EventArgs e){}
         private void AddDownloads_Load(object sender, EventArgs e)
         {
+            //textBoxLink.Text = "https://www.youtube.com/watch?v=SsRYekfVxgo";
+            //pictureBox2.Image = Properties.Resources.YouTube_logo_full_color;
+            //InspectionURL();
+            //this.textBoxName.Focus();
+        }
 
-            textBoxLink.Text = "https://www.youtube.com/watch?v=SsRYekfVxgo";
-            pictureBox2.Image = Properties.Resources.YouTube_logo_full_color;
-            InspectionURL();
-            this.textBoxName.Focus();
+        private void textBoxLink_TextChanged(object sender, EventArgs e)
+        {
+
         }    
     }
 }
