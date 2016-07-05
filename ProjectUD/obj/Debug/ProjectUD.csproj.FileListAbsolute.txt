@@ -177,3 +177,4 @@ D:\Work\Программирование\Интенсив\ProjectUD\ProjectUD\ob
 D:\Work\Программирование\Интенсив\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Manager.resources
 D:\Work\Программирование\Интенсив\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Properties.Resources.resources
 D:\Work\Программирование\Интенсив\ProjectUD\ProjectUD\obj\Debug\ProjectUD.csproj.GenerateResource.Cache
+D:\Git\ProjectUD\ProjectUD\obj\Debug\ProjectUD.csprojResolveAssemblyReference.cache

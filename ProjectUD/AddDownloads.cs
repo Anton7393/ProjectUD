@@ -182,6 +182,31 @@ namespace ProjectUD
                         buttonAddDownload.Enabled = false;
                     }
                 }
+                textBoxName.Text = "";
+                foreach (char ch in
+                                    mYouTubeContext.Title.Substring(0,
+                                        mYouTubeContext.Title.IndexOf("- YouTube")
+                                        ))
+                {
+                    if ((ch != '/')
+                        && (ch != '\\')
+                        && (ch != ':')
+                        && (ch != '"')
+                        && (ch != '@')
+                        && (ch != '|')
+                        && (ch != '<')
+                        && (ch != '>')
+                        && (ch != '*')
+                        )
+                    {
+                        if (ch == ' ')
+                        {
+                            textBoxName.Text += "_";
+                        }
+                        else
+                            textBoxName.Text += ch;
+                    }
+                }
             }
             catch (Exception ex)
             {
