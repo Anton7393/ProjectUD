@@ -36,6 +36,12 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.buttonInfo = new System.Windows.Forms.Button();
+            this.contextMenuStripList = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.остановитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.перезапуститьЗакачкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.остановитьЗакачкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.перезапуститьВсеЗакачкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -46,12 +52,6 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.contextMenuStripList = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.остановитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.перезапуститьЗакачкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.остановитьЗакачкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.перезапуститьВсеЗакачкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
             this.listViewExDownloads = new ProjectUD.ListViewEx();
             this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -60,9 +60,9 @@
             this.columnHeaderButton = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderRelaod = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel2.SuspendLayout();
+            this.contextMenuStripList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
-            this.contextMenuStripList.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonAddDownloads
@@ -139,6 +139,49 @@
             this.buttonInfo.UseVisualStyleBackColor = true;
             this.buttonInfo.Click += new System.EventHandler(this.buttonInfo_Click);
             // 
+            // contextMenuStripList
+            // 
+            this.contextMenuStripList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem7,
+            this.остановитьToolStripMenuItem,
+            this.перезапуститьЗакачкуToolStripMenuItem,
+            this.остановитьЗакачкуToolStripMenuItem,
+            this.перезапуститьВсеЗакачкиToolStripMenuItem});
+            this.contextMenuStripList.Name = "contextMenuStripList";
+            this.contextMenuStripList.Size = new System.Drawing.Size(223, 114);
+            // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(222, 22);
+            this.toolStripMenuItem7.Text = "Открыть";
+            this.toolStripMenuItem7.Click += new System.EventHandler(this.toolStripMenuItem7_Click);
+            // 
+            // остановитьToolStripMenuItem
+            // 
+            this.остановитьToolStripMenuItem.Name = "остановитьToolStripMenuItem";
+            this.остановитьToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.остановитьToolStripMenuItem.Text = "Остановить закачку";
+            this.остановитьToolStripMenuItem.Click += new System.EventHandler(this.остановитьToolStripMenuItem_Click);
+            // 
+            // перезапуститьЗакачкуToolStripMenuItem
+            // 
+            this.перезапуститьЗакачкуToolStripMenuItem.Name = "перезапуститьЗакачкуToolStripMenuItem";
+            this.перезапуститьЗакачкуToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.перезапуститьЗакачкуToolStripMenuItem.Text = "Перезапустить закачку";
+            // 
+            // остановитьЗакачкуToolStripMenuItem
+            // 
+            this.остановитьЗакачкуToolStripMenuItem.Name = "остановитьЗакачкуToolStripMenuItem";
+            this.остановитьЗакачкуToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.остановитьЗакачкуToolStripMenuItem.Text = "Остановить все закачки";
+            // 
+            // перезапуститьВсеЗакачкиToolStripMenuItem
+            // 
+            this.перезапуститьВсеЗакачкиToolStripMenuItem.Name = "перезапуститьВсеЗакачкиToolStripMenuItem";
+            this.перезапуститьВсеЗакачкиToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.перезапуститьВсеЗакачкиToolStripMenuItem.Text = "Перезапустить все закачки";
+            // 
             // notifyIcon1
             // 
             this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
@@ -203,49 +246,6 @@
             this.toolStripMenuItem5.Text = "Выход";
             this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
             // 
-            // contextMenuStripList
-            // 
-            this.contextMenuStripList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem7,
-            this.остановитьToolStripMenuItem,
-            this.перезапуститьЗакачкуToolStripMenuItem,
-            this.остановитьЗакачкуToolStripMenuItem,
-            this.перезапуститьВсеЗакачкиToolStripMenuItem});
-            this.contextMenuStripList.Name = "contextMenuStripList";
-            this.contextMenuStripList.Size = new System.Drawing.Size(223, 114);
-            // 
-            // остановитьToolStripMenuItem
-            // 
-            this.остановитьToolStripMenuItem.Name = "остановитьToolStripMenuItem";
-            this.остановитьToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
-            this.остановитьToolStripMenuItem.Text = "Остановить закачку";
-            this.остановитьToolStripMenuItem.Click += new System.EventHandler(this.остановитьToolStripMenuItem_Click);
-            // 
-            // перезапуститьЗакачкуToolStripMenuItem
-            // 
-            this.перезапуститьЗакачкуToolStripMenuItem.Name = "перезапуститьЗакачкуToolStripMenuItem";
-            this.перезапуститьЗакачкуToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
-            this.перезапуститьЗакачкуToolStripMenuItem.Text = "Перезапустить закачку";
-            // 
-            // остановитьЗакачкуToolStripMenuItem
-            // 
-            this.остановитьЗакачкуToolStripMenuItem.Name = "остановитьЗакачкуToolStripMenuItem";
-            this.остановитьЗакачкуToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
-            this.остановитьЗакачкуToolStripMenuItem.Text = "Остановить все закачки";
-            // 
-            // перезапуститьВсеЗакачкиToolStripMenuItem
-            // 
-            this.перезапуститьВсеЗакачкиToolStripMenuItem.Name = "перезапуститьВсеЗакачкиToolStripMenuItem";
-            this.перезапуститьВсеЗакачкиToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
-            this.перезапуститьВсеЗакачкиToolStripMenuItem.Text = "Перезапустить все закачки";
-            // 
-            // toolStripMenuItem7
-            // 
-            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(222, 22);
-            this.toolStripMenuItem7.Text = "Открыть";
-            this.toolStripMenuItem7.Click += new System.EventHandler(this.toolStripMenuItem7_Click);
-            // 
             // listViewExDownloads
             // 
             this.listViewExDownloads.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -288,7 +288,7 @@
             // columnHeaderProcess
             // 
             this.columnHeaderProcess.Text = "Процесс";
-            this.columnHeaderProcess.Width = 123;
+            this.columnHeaderProcess.Width = 124;
             // 
             // columnHeaderButton
             // 
@@ -319,9 +319,9 @@
             this.Load += new System.EventHandler(this.Manager_Load);
             this.Resize += new System.EventHandler(this.Manager_Resize);
             this.panel2.ResumeLayout(false);
+            this.contextMenuStripList.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
-            this.contextMenuStripList.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

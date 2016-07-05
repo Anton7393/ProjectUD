@@ -32,6 +32,8 @@ namespace ProjectUD
             contextMenuStripList.Items[1].Visible = false;
             contextMenuStripList.Items[2].Visible = false;
 
+  
+
         }
         private void Manager_Load(object sender, EventArgs e)
         {
@@ -259,7 +261,16 @@ namespace ProjectUD
         private void Manager_Resize(object sender, EventArgs e)
         {
             //    listViewExDownload. .AutoResizeColumns();
-            listViewExDownloads.AutoResizeColumn(4,ColumnHeaderAutoResizeStyle.HeaderSize);
+            listViewExDownloads.Columns[0].Width = Convert.ToInt16((listViewExDownloads.Width-200) * 0.186);
+            listViewExDownloads.Columns[1].Width = Convert.ToInt16((listViewExDownloads.Width - 200) * 0.3896);
+            listViewExDownloads.Columns[2].Width = Convert.ToInt16((listViewExDownloads.Width - 200) * 0.3549);
+            listViewExDownloads.Columns[3].Width = 124;
+            listViewExDownloads.Columns[4].Width = 38;
+            listViewExDownloads.Columns[5].Width = 38;
+          
+            //            listViewExDownloads.AutoResizeColumn(1,ColumnHeaderAutoResizeStyle.ColumnContent);
+            //     listViewExDownloads.AutoResizeColumn(5, ColumnHeaderAutoResizeStyle.HeaderSize);
+
             if (this.WindowState == FormWindowState.Minimized)
             {
                 this.WindowState = FormWindowState.Minimized;
@@ -305,16 +316,12 @@ namespace ProjectUD
         {
             if (e.Button == MouseButtons.Left)
             {
-
                 if (this.WindowState == FormWindowState.Minimized)
                     ShowForm();
                 else
                     HideForm();
             }
-      //      else if (e.Button == MouseButtons.Right)
-      //    {
-                notifyIcon1.ContextMenuStrip.Show();
-         //   }
+    
         }
 
         private void toolStripMenuItem6_Click(object sender, EventArgs e)
