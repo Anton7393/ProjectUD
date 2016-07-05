@@ -407,8 +407,8 @@ namespace ProjectUD
             if (listViewExDownloads.SelectedItems.Count == 1)
             {
 
-                if (System.IO.File.Exists(listViewExDownloads.GetEmbeddedControl(1, listViewExDownloads.SelectedItems[0].Index).Text))
-                    System.Diagnostics.Process.Start(listViewExDownloads.GetEmbeddedControl(1, listViewExDownloads.SelectedItems[0].Index).Text);
+                if (System.IO.File.Exists(listViewExDownloads.Items[listViewExDownloads.SelectedItems[0].Index].SubItems[1].Text))
+                    System.Diagnostics.Process.Start(listViewExDownloads.Items[listViewExDownloads.SelectedItems[0].Index].SubItems[1].Text);
                 else
                 {
                     MessageBox.Show(this, "Файл " + '"' + listViewExDownloads.GetEmbeddedControl(1, listViewExDownloads.SelectedItems[0].Index).Text + '"' + "не найден.",
