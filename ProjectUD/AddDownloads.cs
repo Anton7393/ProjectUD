@@ -41,36 +41,53 @@ namespace ProjectUD
             textBoxLink.Text = Clipboard.GetText();
             pictureBox2.Image = Properties.Resources.YouTube_logo_full_color;
             InspectionURL();
+            this.textBoxName.Focus();
         }
 
         private void buttonAddDownload_Click(object sender, EventArgs e)
         {
-
-            if (textBoxName.Text != "")
+            bool flsg = true;
+            mYouTubeContext.Path = textBoxPath.Text;
+            mYouTubeContext.Name = textBoxName.Text;
+            mYouTubeContext.pathBuilder();
+            if (File.Exists(this.mYouTubeContext.Path))
             {
-                if (CorrectFileName(textBoxName.Text))
-                    MessageBox.Show("Имя файла не должно содержать:\n" + @"               \ / : ? " + '"' + @" < > |");
-                else
+                flsg = false;
+                if (System.Windows.Forms.MessageBox.Show(
+                    "Файл с таким именем уже существует.\n Желаете перезаписать?", "",
+                    System.Windows.Forms.MessageBoxButtons.YesNo, 
+                    System.Windows.Forms.MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    Manager main = this.Owner as Manager;
-                    if (main != null)
-                    {
-                        //main.AddItemListViewEx(textBoxName.Text, textBoxPath.Text, textBoxLink.Text, 0);
-
-                    }
-                    mYouTubeContext.Path = textBoxPath.Text;
-                    mYouTubeContext.Name = textBoxName.Text;
-                    mYouTubeContext.pathBuilder();
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
+                    File.Delete(this.mYouTubeContext.Path);
+                    flsg = true;
                 }
             }
-            else
+            if (flsg)
             {
-                MessageBox.Show("Пустое имя файла");
+                if (textBoxName.Text != "")
+                {
+                    if (CorrectFileName(textBoxName.Text))
+                        MessageBox.Show("Имя файла не должно содержать:\n" + @"               \ / : ? " + '"' + @" < > |");
+                    else
+                    {
+                        Manager main = this.Owner as Manager;
+                        if (main != null)
+                        {
+                            //main.AddItemListViewEx(textBoxName.Text, textBoxPath.Text, textBoxLink.Text, 0);
 
+                        }
+                        mYouTubeContext.Path = textBoxPath.Text;
+                        mYouTubeContext.Name = textBoxName.Text;
+                        mYouTubeContext.pathBuilder();
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Пустое имя файла");
+                }
             }
-
         }
 
         private void buttonPath_Click(object sender, EventArgs e)
@@ -118,9 +135,12 @@ namespace ProjectUD
                 mYouTubeContext.extractYouTubeMeta(textBoxLink.Text);
                 mResolutionList = mYouTubeContext.ResolutionList;
                 
-                foreach (var item in mResolutionList)
+                if (comboBoxQuality.Items.Count == 0)
                 {
-                    comboBoxQuality.Items.Add(item);
+                    foreach (var item in mResolutionList)
+                    {
+                        comboBoxQuality.Items.Add(item);
+                    }
                 }
 
                 comboBoxQuality.SelectedIndex = 0;
@@ -184,6 +204,22 @@ namespace ProjectUD
             }
             else
                 return false;
+        }
+
+        //Удалить!
+
+        private void textBoxName_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AddDownloads_Load(object sender, EventArgs e)
+        {
+
+            //textBoxLink.Text = "https://www.youtube.com/watch?v=SsRYekfVxgo";
+            //pictureBox2.Image = Properties.Resources.YouTube_logo_full_color;
+            //InspectionURL();
+            //this.textBoxName.Focus();
         }    
     }
 }
