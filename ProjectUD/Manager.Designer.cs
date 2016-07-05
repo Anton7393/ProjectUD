@@ -149,6 +149,7 @@
             this.перезапуститьВсеЗакачкиToolStripMenuItem});
             this.contextMenuStripList.Name = "contextMenuStripList";
             this.contextMenuStripList.Size = new System.Drawing.Size(223, 114);
+            this.contextMenuStripList.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripList_Opening);
             // 
             // toolStripMenuItem7
             // 
@@ -260,6 +261,7 @@
             this.columnHeaderRelaod});
             this.listViewExDownloads.ContextMenuStrip = this.contextMenuStripList;
             this.listViewExDownloads.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
+            this.listViewExDownloads.FullRowSelect = true;
             this.listViewExDownloads.HideSelection = false;
             this.listViewExDownloads.HoverSelection = true;
             this.listViewExDownloads.Location = new System.Drawing.Point(3, 62);
@@ -268,8 +270,6 @@
             this.listViewExDownloads.TabIndex = 2;
             this.listViewExDownloads.UseCompatibleStateImageBehavior = false;
             this.listViewExDownloads.View = System.Windows.Forms.View.Details;
-            this.listViewExDownloads.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listViewExDownloads_ItemSelectionChanged);
-            this.listViewExDownloads.Click += new System.EventHandler(this.listViewExDownloads_Click);
             // 
             // columnHeaderName
             // 

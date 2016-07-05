@@ -74,6 +74,7 @@ namespace ProjectUD
 
         private void buttonInfo_Click(object sender, EventArgs e)
         {
+            
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = false;
             contextMenuStrip1.Items[2].Visible = false;
@@ -84,7 +85,7 @@ namespace ProjectUD
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = true;
             contextMenuStrip1.Items[2].Visible = true;
-
+            
         }
 
         private void addItemsToListViewFromDB()
@@ -233,7 +234,7 @@ namespace ProjectUD
             listViewExDownloads.AddEmbeddedControl(buttonReload, 4, listViewExDownloads.Items.Count - 1);
             listViewExDownloads.AddEmbeddedControl(textBox, 2, listViewExDownloads.Items.Count - 1);
             listViewExDownloads.AddEmbeddedControl(progressBar, 3, listViewExDownloads.Items.Count - 1);
-            listViewExDownloads.AddEmbeddedControl(label, 1, listViewExDownloads.Items.Count - 1);
+         //   listViewExDownloads.AddEmbeddedControl(label, 1, listViewExDownloads.Items.Count - 1);
             listViewExDownloads.Update();
             this.Top = 1;   
         }
@@ -415,51 +416,12 @@ namespace ProjectUD
                 }
             }
         }
-                
 
-        private void listViewExDownloads_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void contextMenuStripList_Opening(object sender, CancelEventArgs e)
         {
-            /*
-            if (listViewExDownloads.SelectedItems.Count == 1)
-            {
-                if (listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Name == states[0])
-                {
-                    contextMenuStripList.Items[0].Visible = false;
-                    contextMenuStripList.Items[1].Visible = true;
-                    contextMenuStripList.Items[2].Visible = false;
-
-                }
-                else if (listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Name == states[1])
-                {
-                    contextMenuStripList.Items[0].Visible = false;
-                    contextMenuStripList.Items[1].Visible = false;
-                    contextMenuStripList.Items[2].Visible = true;
-                }
-                else if (listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Name == states[2])
-                {
-                    contextMenuStripList.Items[0].Visible = true;
-                    contextMenuStripList.Items[1].Visible = false;
-                    contextMenuStripList.Items[2].Visible = false;
-                }
-            }
-            else
-            {
-                contextMenuStripList.Items[0].Visible = false;
-                contextMenuStripList.Items[1].Visible = false;
-                contextMenuStripList.Items[2].Visible = false;
-
-            }
-            */
-        }
-        
-        private void listViewExDownloads_Click(object sender, EventArgs e)
-        {
-            /*
-           // if (e == MouseButtons.Left)
-            {
-
                 if (listViewExDownloads.SelectedItems.Count == 1)
                 {
+                    contextMenuStripList.Show(Cursor.Position);
 
                     if (listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Name == states[0])
                     {
@@ -488,8 +450,7 @@ namespace ProjectUD
                     contextMenuStripList.Items[2].Visible = false;
 
                 }
-            }*/  
+            
         }
-        
     }
 }
