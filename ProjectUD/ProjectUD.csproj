@@ -139,13 +139,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="downloadhistory.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="downloadhistory_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>downloadhistory.mdf</DependentUpon>
-    </Content>
     <Content Include="logo3.ico" />
     <None Include="Resources\stop.png" />
     <None Include="Resources\open.png" />
