@@ -19,18 +19,18 @@ namespace ProjectUD
         private WebClient mClient = new WebClient();
         private Action<object, System.Net.DownloadProgressChangedEventArgs> mActionProgressBar = delegate(object sender, System.Net.DownloadProgressChangedEventArgs e) { };
         public void SetProgressBarAction(Action<object, System.Net.DownloadProgressChangedEventArgs> _mActionProgressBar){this.mActionProgressBar+=_mActionProgressBar;}
-        
+
         public YouTubeContext(string Name, string Path, string Link)
         {
-            this.Name = Name;
-            this.Path = Path;
-            this.Link = Link;
             mYouTube = YouTube.Default;
             ResolutionList = new List<string>();
             mVideoList = new List<YouTubeVideo>();
             mSortedVideoList = new List<YouTubeVideo>();
             mVideoDictionary = new Dictionary<string, YouTubeVideo>();
             mSelectedVideo = null;
+            this.Name = Name;
+            this.Path = Path;
+            this.Link = Link;
         }
         public YouTubeContext()
         {
@@ -86,6 +86,7 @@ namespace ProjectUD
         public void stopDownloadViaWebClient()
         {            
             this.mClient.CancelAsync();
+            //mActionProgressBar(null, (DownloadProgressChangedEventHandler)(0));
         }
 
         public List<string> ResolutionList { get; private set; }

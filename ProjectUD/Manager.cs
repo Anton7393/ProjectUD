@@ -11,10 +11,12 @@ namespace ProjectUD
 {
     public partial class Manager : Form
     {
-        public YouTubeContext _YTC= new YouTubeContext();
+        public YouTubeContext _YTC;
+        public List<YouTubeContext> _LYTC = new List<YouTubeContext>();
         //Статусы кнопок
         private String[] states = { "stop", "reload", "open" };
         public bool usbd = false;
+        private bool chenged = false;
         private string button2Name = "";
         public Manager()
         {
@@ -36,6 +38,7 @@ namespace ProjectUD
 
         private void buttonAddDownloads_Click(object sender, EventArgs e)
         {
+            
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = false;
             contextMenuStrip1.Items[2].Visible = false;
@@ -47,11 +50,10 @@ namespace ProjectUD
             
             if (FormAddDownloads.DialogResult == DialogResult.OK)
             {
-                this._YTC = FormAddDownloads.returnContext();
+                this._LYTC.Add(FormAddDownloads.returnContext());
                 if (usbd) (new DataContext()).addDataToDB(_YTC);
-                addItemsToListView( 0, true);
-                _YTC.startDownloadViaWebClient();
-                
+                addItemsToListView(this._LYTC.Count - 1, 0, true);
+                this._LYTC[this._LYTC.Count - 1].startDownloadViaWebClient();
             }
 
             contextMenuStrip1.Items[0].Visible = false;
@@ -86,109 +88,169 @@ namespace ProjectUD
                 }
             }
         }
-        
-        private Action<object, EventArgs> bttnDel() 
+        /// <summary>Событие клика на локальную кнопку удалить</summary>
+        /// <param name="LocalButtonSender">Кнопка на которую кликнули(На прямую задаваемый экземпляр объекта кнопки, который ивляется издателем этого события)</param>
+        /// <param name="sender">Кнопка на которую кликнули(Системно передаваемый при вызове события экземпляр объекта кнопки, который является издателем этого события)</param>
+        /// <returns> Метод возращает делегат события, останется только подписаться на событие.</returns>
+        private void bttnDel(object LocalButtonSender, EventArgs e)
+        {
+            int i = listViewExDownloads.IndexItems(LocalButtonSender as Control);
+            if (i != -1)
+            {
+                if (usbd) (new DataContext()).removeDataFromDB(_YTC);
+                this._LYTC[i].stopDownloadViaWebClient();
+                this._LYTC.RemoveAt(i);
+                listViewExDownloads.Items.RemoveAt(i);
+            }         
+        }
+        /// <summary>Событие клика на локальную кнопку удалить</summary>
+        /// <param name="LocalButtonSender">Кнопка на которую кликнули(На прямую задаваемый экземпляр объекта кнопки, который ивляется издателем этого события)</param>
+        /// <param name="sender">Кнопка на которую кликнули(Системно передаваемый при вызове события экземпляр объекта кнопки, который является издателем этого события)</param>
+        /// <returns> Метод возращает делегат события, останется только подписаться на событие.</returns>
+        private Action<object, EventArgs> bttnDel(object LocalButtonSender) 
         {
             return delegate(object sender, EventArgs e)
             {
-                _YTC.stopDownloadViaWebClient();
-                if (usbd) (new DataContext()).removeDataFromDB(_YTC);
-                listViewExDownloads.Items.RemoveAt(listViewExDownloads.IndexItems(sender as Control));
+                /// Для данного метода MainButtonSender и LocalButtonSender - одни и теже (локальная кнопка,сгенерировавшая событие, одна и таже)
+                /// Это подразумевается, но чтобы убедиться в этом используем проверку на эквивалентность объектов.
+                //System.Windows.Forms.MessageBox.Show("sender.Equals(LocalButtonSender) = " + sender.Equals(LocalButtonSender), "");
+                if (sender.Equals(LocalButtonSender))
+                {
+                    int i = listViewExDownloads.IndexItems(sender as Control);
+                    if (i != -1)
+                    {
+                        if (usbd) (new DataContext()).removeDataFromDB(_YTC);
+                        this._LYTC[i].stopDownloadViaWebClient();
+                        this._LYTC.RemoveAt(i);
+                        listViewExDownloads.Items.RemoveAt(i);
+                    }
+                }
             };
         }
-
-        public void bttnReload_if1(int i)
+        /// <summary>Событие клика на глобальную кнопку удалить (удалить всё)</summary>
+        /// <param name="LocalButtonSender">Кнопка на которую кликнули(На прямую задаваемый экземпляр объекта кнопки, который ивляется издателем этого события)</param>
+        /// <param name="MainButtonSender">Кнопка на которую кликнули(Системно передаваемый при вызове события экземпляр объекта кнопки, который является издателем этого события)</param>
+        /// <returns> Метод возращает делегат события, останется только подписаться на событие.</returns>
+        private Action<object, EventArgs> bttnDel_(object LocalButtonSender)
         {
-            //int i = listViewExDownloads.IndexItems(sender as Control);
-            Button pb = listViewExDownloads.GetEmbeddedControl(4, i) as Button;
-            if (pb.Name == states[1])
+            return   delegate(object MainButtonSender, EventArgs e)
             {
-                pb.Image = Properties.Resources.stop;
-                pb.Name = states[0];
-                listViewExDownloads.AddEmbeddedControl(pb, 4, i);
-                listViewExDownloads.Update();
-                _YTC.stopDownloadViaWebClient();
-                _YTC.startDownloadViaWebClient();
-            }
-        }
-
-        public void bttnReload_if0(int i)
-        {
-            //int i = listViewExDownloads.IndexItems(sender as Control);
-            Button pb = listViewExDownloads.GetEmbeddedControl(4, i) as Button;
-            if (pb.Name == states[0])
-            {
-                _YTC.stopDownloadViaWebClient();
-                pb.Image = Properties.Resources.reload_icon;
-                pb.Name = states[1];
-                listViewExDownloads.AddEmbeddedControl(pb, 4, i);
-                listViewExDownloads.Update();
-            }
-        }
-
-        private Action<object, EventArgs> bttnReload_001()
-        {
-            return delegate(object sender, EventArgs e)
-            {//этот Action нужно подключить в два места.
-                int i = listViewExDownloads.IndexItems(sender as Control);
-                Button pb = listViewExDownloads.GetEmbeddedControl(4, i) as Button;
-                //MessageBox.Show(pb.Name);
-                if (pb.Name == states[0]) { bttnReload_if0(i); }//стоп
-                else if (pb.Name == states[1]) { bttnReload_if1(i); }//перезагрузка
-                else if (pb.Name == states[2])
+                //System.Windows.Forms.MessageBox.Show("Object LocalButtonSender = " + LocalButtonSender.ToString() + "\n" + "Name =" + ((Button)LocalButtonSender).Name + "\n", "");
+                //System.Windows.Forms.MessageBox.Show("Object MainButtonSender = " + MainButtonSender.ToString() + "\n" + "Name =" + ((Button)MainButtonSender).Name + "\n", "");
+                //System.Windows.Forms.MessageBox.Show("MainButtonSender.Equals(LocalButtonSender) = " + MainButtonSender.Equals(LocalButtonSender), "");
+                //System.Windows.Forms.MessageBox.Show("MainButtonSender.Equals(MainButtonSender) = " + MainButtonSender.Equals(MainButtonSender), "");
+                //
+                
+                /// Для данного метода MainButtonSender и LocalButtonSender - не одни и теже
+                /// Это подразумевается, но чтобы убедиться в этом используем проверку на эквивалентность объектов.
+                //System.Windows.Forms.MessageBox.Show("MainButtonSender.Equals(LocalButtonSender) = " + MainButtonSender.Equals(LocalButtonSender), "");
+                
+                if (!MainButtonSender.Equals(LocalButtonSender))
                 {
-                    if (System.IO.File.Exists(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text))
-                        System.Diagnostics.Process.Start(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text);
+                    this.bttnDel(LocalButtonSender, null);
+                    /*
+                    int i = listViewExDownloads.IndexItems(LocalButtonSender as Control);
+                    if (i != -1)
+                    {//Проверка. Если такой локальной кнопки не существует, то и действие не выполняется.
+                        if (usbd) (new DataContext()).removeDataFromDB(_YTC);
+                        listViewExDownloads.Items.RemoveAt(i);
+                        this._LYTC[i].stopDownloadViaWebClient();
+                        this._LYTC.RemoveAt(i);
+                        listViewExDownloads.Items.RemoveAt(i);
+                    }
+                    */
+                }
+            };
+        }
+        /// <summary>Событие клика на локальную кнопку остановит/перезапустить</summary>
+        /// <param name="LocalButtonSender">Кнопка на которую кликнули(На прямую задаваемый экземпляр объекта кнопки, который ивляется издателем этого события)</param>
+        /// <param name="MainButtonSender">Кнопка на которую кликнули(Системно передаваемый при вызове события экземпляр объекта кнопки, который является издателем этого события)</param>
+        /// <returns> Метод возращает делегат события, останется только подписаться на событие.</returns>
+        private void bttnReload(object LocalButtonSender, EventArgs e)
+        {
+            /// Для данного метода sender и LocalButtonSender - одни и теже
+            /// Это подразумевается, но чтобы убедиться в этом используем проверку на эквивалентность объектов.
+            //System.Windows.Forms.MessageBox.Show("sender.Equals(LocalButtonSender) = " + sender.Equals(LocalButtonSender), "");
+                
+            int i = listViewExDownloads.IndexItems(LocalButtonSender as Control);
+                    
+            if (i != -1)
+            {
+                if (((Button)LocalButtonSender).Name == states[0])
+                {
+                    this._LYTC[i].stopDownloadViaWebClient();
+                    ((Button)LocalButtonSender).Image = Properties.Resources.reload_icon;
+                    ((Button)LocalButtonSender).Name = states[1];
+                }//стоп
+                else if (((Button)LocalButtonSender).Name == states[1])
+                {
+                    this._LYTC[i].stopDownloadViaWebClient();
+                    this._LYTC[i].startDownloadViaWebClient();
+                    ((Button)LocalButtonSender).Image = Properties.Resources.stop;
+                    ((Button)LocalButtonSender).Name = states[0];
+                }//перезагрузка
+                else if (((Button)LocalButtonSender).Name == states[2])
+                {
+                    if (System.IO.File.Exists(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(LocalButtonSender as Control), 2).Text))
+                        System.Diagnostics.Process.Start(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(LocalButtonSender as Control), 2).Text);
                     else
                     {
-                        MessageBox.Show(this, "Файл " + '"' + listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text + '"' + "не найден.",
-                          "Файл не найден", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show(this, "Файл " + '"' + listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(LocalButtonSender as Control), 2).Text + '"' + "не найден.",
+                            "Файл не найден", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
-            };
+            }
         }
-        private Action<object, EventArgs> bttnReload_002()
+        private Action<object, EventArgs> bttnReload_(object LocalButtonSender)
         {
-            return delegate(object sender, EventArgs e)
+            
+            return delegate(object MainButtonSender, EventArgs e)
             {
-                if (this.button2Name == states[0])
+                this.bttnReload(LocalButtonSender, null);
+                /*
+                if (((Button)LocalButtonSender).Name != (((Button)MainButtonSender).Name))     
                 {
-                    for (int i = 0; i < this.listViewExDownloads.Items.Count; i++)
-                        bttnReload_if0(i);
+                    
                 }
-                else
-                    if (this.button2Name == states[1])
-                    {
-                        for (int i = 0; i < this.listViewExDownloads.Items.Count; i++)
-                            bttnReload_if1(i);
-                    }
+                button2Name = (((Button)MainButtonSender).Name);
+                */
+                
             };
         }
-        private void addItemsToListView(/*YouTubeContext _YTC,*/ int _proc, bool _completed = false)
+        private void addItemsToListView(/*YouTubeContext _YTC,*/int i, int _proc, bool _completed = false)
         {
-            string _name = _YTC.Name;
-            string _path = _YTC.Path;
-            string _link = _YTC.Link;
+            
+            string _name = _LYTC[i].Name;
+            string _path = _LYTC[i].Path;
+            string _link = _LYTC[i].Link;
             Label label = new Label();
                 label.Text = _path;
+            //Создаём локальную кнопку удалить
             Button buttonDel = new Button();
                 buttonDel.Text = "";
                 buttonDel.Image = Properties.Resources.cancel;
                 buttonDel.Name = "delete";
-                buttonDel.Click += new EventHandler(this.bttnDel());//new EventHandler(bttnDel);//на кнопку отмены одного скачивания
-                this.button1.Click += new EventHandler(this.bttnDel());//на кнопку отмены всех скачиваний
+                //Создаём событие на локальную кнопку удалить (ну и подписываем на это событие локальную кнопку)
+                buttonDel.Click += new EventHandler(this.bttnDel);
+                //buttonDel.Click += new EventHandler(this.bttnDel(buttonDel));
+                //Создаём событие на глобыльную кнопку удалить "удалить всё"(ну и подписываем на это событие глобальную кнопку "кнопку удалить всё")
+                this.button1.Click += new EventHandler(this.bttnDel_(buttonDel));
+                //для подключения в трее использовать ....Click += new EventHandler(this.button1_Click);
             
             Button buttonReload = new Button();
                 buttonReload.Text = "";
                 buttonReload.Image = Properties.Resources.stop;
                 buttonReload.Name = states[0];//В имени статус
-                buttonReload.Click += new EventHandler(this.bttnReload_001());
-                this.button2.Click += new EventHandler(this.bttnReload_002());
+                buttonReload.Click += new EventHandler(this.bttnReload);
+                this.button2.Click += new EventHandler(this.bttnReload_(buttonReload));
+                //для подключения в трее использовать ....Click += new EventHandler(this.button2_Click);
+
+
             TextBox textBox = new TextBox();
                 textBox.ReadOnly = true;
                 textBox.Text = _link;
             ProgressBar progressBar = new ProgressBar();
-            _YTC.SetProgressBarAction(
+            this._LYTC[i].SetProgressBarAction(
                 (Action<object, System.Net.DownloadProgressChangedEventArgs>)
                 delegate(object sender, System.Net.DownloadProgressChangedEventArgs e)
                 {progressBar.Value = e.ProgressPercentage;}
@@ -333,18 +395,17 @@ namespace ProjectUD
         
         private void button2_Click(object sender, EventArgs e)
         {
+            
             if (button2Name == states[0])
             {
                 button2.Image = Properties.Resources.reload_icon;
-                button2Name = states[1];
-                //button2.Image = Properties.Resources.stop;
-                //button2Name = states[0];
+            //    button2Name = states[1];
             }
             //перезагрузка
             else if (button2Name == states[1])
             {
                 button2.Image = Properties.Resources.stop;
-                button2Name = states[0];
+              //  button2Name = states[0];
             }
             //открыть
             else if (button2.Name == states[2])
