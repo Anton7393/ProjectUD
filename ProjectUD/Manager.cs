@@ -18,13 +18,13 @@ namespace ProjectUD
         private bool button2Name_Chang = false; 
         //Статусы кнопок
         private String[] states = { "stop", "reload", "open" };
-        public bool usbd = false;
+        
     #region Form
         public Manager()
         {
             button2Name = states[0];
             InitializeComponent();
-            if (usbd) addItemsToListViewFromDB();
+            addItemsToListViewFromDB();
             this.Resize += new System.EventHandler(this.Manager_Resize);
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = true;
@@ -47,7 +47,7 @@ namespace ProjectUD
                 this._LYTC.Add(FormAddDownloads.returnContext());
                 {
                     int q = this._LYTC.Count - 1;
-                    if (usbd) (new DataContext()).addDataToDB(this._LYTC[q]);
+                    (new DataContext()).addDataToDB(this._LYTC[q]);
                     addItemsToListView(q, 0, true);
                     this._L_bttnReloadName_Chang.Add(true);
                     this._L_bttnReloadName_States.Add(states[0]);
@@ -203,7 +203,7 @@ namespace ProjectUD
             int i = listViewExDownloads.IndexItems(LocalButtonSender as Control);
             if (i != -1)
             {
-                if (usbd) (new DataContext()).removeDataFromDB(this._LYTC[i]);
+                (new DataContext()).removeDataFromDB(this._LYTC[i]);
                 this._LYTC[i].stopDownloadViaWebClient();
                 this._LYTC.RemoveAt(i);
                 this._L_bttnReloadName_States.RemoveAt(i);

@@ -40,11 +40,12 @@ namespace ProjectUD
 
         public void removeDataFromDB(YouTubeContext _youTubeContext)
         {
-            var itemToRemove = this.VideoDatas.SingleOrDefault(row => row.Date == _youTubeContext.Date.ToString("yyyy-MM-dd HH:mm:ss"));
+            var infoToRemove = _youTubeContext.Date.ToString("yyyy-MM-dd HH:mm:ss");
+            var itemToRemove = this.VideoDatas.Where(row => row.Date == infoToRemove);
 
             if (itemToRemove != null)
             {
-                this.VideoDatas.Remove(itemToRemove);
+                this.VideoDatas.RemoveRange(itemToRemove);
                 this.SaveChanges();
             }
         }
