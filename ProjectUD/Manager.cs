@@ -16,6 +16,7 @@ namespace ProjectUD
         private String[] states = { "stop", "reload", "open" };
         public bool usbd = true;
         private string button2Name = "";
+        private bool modelOpen = false;
         public Manager()
         {
             button2Name = states[0];
@@ -32,7 +33,10 @@ namespace ProjectUD
             contextMenuStripList.Items[1].Visible = false;
             contextMenuStripList.Items[2].Visible = false;
             notifyIcon1.Text = "YouTube Downloader";
-  
+            toolTip.SetToolTip(button2, "Остановить все");
+            toolTip.SetToolTip(button1, "Удалить все");
+            toolTip.SetToolTip(buttonInfo, "Информация о программе");
+
 
         }
         private void Manager_Load(object sender, EventArgs e)
@@ -46,12 +50,13 @@ namespace ProjectUD
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = false;
             contextMenuStrip1.Items[2].Visible = false;
+            modelOpen = true;
+
             AddDownloads FormAddDownloads = new AddDownloads();
       //      FormAddDownloads.ShowInTaskbar = false;
             FormAddDownloads.Owner = this;
             FormAddDownloads.ShowDialog();
 
-            
             if (FormAddDownloads.DialogResult == DialogResult.OK)
             {
                 YouTubeContext _YTC = FormAddDownloads.returnContext();
@@ -60,7 +65,7 @@ namespace ProjectUD
                 _YTC.startDownloadViaWebClient();
                 
             }
-
+            modelOpen = false;
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = true;
             contextMenuStrip1.Items[2].Visible = true;
@@ -72,10 +77,10 @@ namespace ProjectUD
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = false;
             contextMenuStrip1.Items[2].Visible = false;
-
+            modelOpen = true;
             Form FormInfo = new Info();
             FormInfo.ShowDialog();
-
+            modelOpen = false;
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = true;
             contextMenuStrip1.Items[2].Visible = true;
@@ -207,7 +212,7 @@ namespace ProjectUD
             );
             string[] row = { _name, _path};
             var listViewItem = new ListViewItem(row);
-
+            
             listViewExDownloads.Items.Add(listViewItem);
             if (_completed)
             {
@@ -230,8 +235,9 @@ namespace ProjectUD
             listViewExDownloads.AddEmbeddedControl(progressBar, 3, listViewExDownloads.Items.Count - 1);
             listViewExDownloads.AddEmbeddedControl(label, 1, listViewExDownloads.Items.Count - 1);
             listViewExDownloads.Update();
-            
+            this.Top = 1;   
         }
+
         private void clearItemsToListView()
         {
             listViewExDownloads.Clear();
@@ -319,10 +325,13 @@ namespace ProjectUD
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (this.WindowState == FormWindowState.Minimized)
-                    ShowForm();
-                else
-                    HideForm();
+                if (modelOpen == false)
+                {
+                    if (this.WindowState == FormWindowState.Minimized)
+                        ShowForm();
+                    else
+                        HideForm();
+                }
             }
     
         }
@@ -333,6 +342,7 @@ namespace ProjectUD
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = false;
             contextMenuStrip1.Items[2].Visible = false;
+            modelOpen = true;
             AddDownloads FormAddDownloads = new AddDownloads();
             FormAddDownloads.ShowInTaskbar = false;
             FormAddDownloads.Owner = this;
@@ -346,6 +356,7 @@ namespace ProjectUD
                 _YTC.startDownloadViaWebClient();
 
             }
+            modelOpen = false;
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = true;
             contextMenuStrip1.Items[2].Visible = true;
@@ -362,12 +373,15 @@ namespace ProjectUD
             {
                 button2.Image = Properties.Resources.reload_icon;
                 button2Name = states[1];
+                toolTip.SetToolTip(button2, "Перезагрузить все");
+                
             }
             //перезагрузка
             else if (button2Name == states[1])
             {
                 button2.Image = Properties.Resources.stop;
                 button2Name = states[0];
+                toolTip.SetToolTip(button2, "Остановить все");
             }
             //открыть
             else if (button2.Name == states[2])
