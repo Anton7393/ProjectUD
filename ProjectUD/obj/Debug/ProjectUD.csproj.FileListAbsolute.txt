@@ -136,8 +136,6 @@ D:\Git\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Info.resources
 D:\Git\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Manager.resources
 D:\Git\ProjectUD\ProjectUD\obj\Debug\ProjectUD.Properties.Resources.resources
 D:\Git\ProjectUD\ProjectUD\obj\Debug\ProjectUD.csproj.GenerateResource.Cache
-D:\Git\ProjectUD\ProjectUD\bin\Debug\downloadhistory.mdf
-D:\Git\ProjectUD\ProjectUD\bin\Debug\downloadhistory_log.ldf
 D:\Git\ProjectUD\ProjectUD\bin\Debug\ProjectUD.exe
 D:\Git\ProjectUD\ProjectUD\bin\Debug\ProjectUD.pdb
 D:\Git\ProjectUD\ProjectUD\bin\Debug\EntityFramework.dll

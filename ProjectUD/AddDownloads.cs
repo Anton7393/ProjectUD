@@ -205,21 +205,14 @@ namespace ProjectUD
             else
                 return false;
         }
-
-        //Удалить!
-
-        private void textBoxName_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        private void textBoxName_TextChanged(object sender, EventArgs e){}
         private void AddDownloads_Load(object sender, EventArgs e)
         {
 
-            //textBoxLink.Text = "https://www.youtube.com/watch?v=SsRYekfVxgo";
-            //pictureBox2.Image = Properties.Resources.YouTube_logo_full_color;
-            //InspectionURL();
-            //this.textBoxName.Focus();
+            textBoxLink.Text = "https://www.youtube.com/watch?v=SsRYekfVxgo";
+            pictureBox2.Image = Properties.Resources.YouTube_logo_full_color;
+            InspectionURL();
+            this.textBoxName.Focus();
         }    
     }
 }
