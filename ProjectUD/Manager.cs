@@ -12,11 +12,13 @@ namespace ProjectUD
     public partial class Manager : Form
     {
         private List<YouTubeContext> _LYTC = new List<YouTubeContext>();
-        
+        private List<string> _L_bttnReloadName_States = new List<string>();
+        private List<bool> _L_bttnReloadName_Chang = new List<bool>();
+        private string button2Name = "";
+        private bool button2Name_Chang = false; 
         //Статусы кнопок
         private String[] states = { "stop", "reload", "open" };
         public bool usbd = false;
-        private string button2Name = "";        
     #region Form
         public Manager()
         {
@@ -47,6 +49,8 @@ namespace ProjectUD
                     int q = this._LYTC.Count - 1;
                     if (usbd) (new DataContext()).addDataToDB(this._LYTC[q]);
                     addItemsToListView(q, 0, true);
+                    this._L_bttnReloadName_Chang.Add(true);
+                    this._L_bttnReloadName_States.Add(states[0]);
                     this._LYTC[q].startDownloadViaWebClient();
                 }
             }
@@ -202,6 +206,8 @@ namespace ProjectUD
                 if (usbd) (new DataContext()).removeDataFromDB(this._LYTC[i]);
                 this._LYTC[i].stopDownloadViaWebClient();
                 this._LYTC.RemoveAt(i);
+                this._L_bttnReloadName_States.RemoveAt(i);
+                this._L_bttnReloadName_Chang.RemoveAt(i);
                 listViewExDownloads.Items.RemoveAt(i);
             }
         }
@@ -214,9 +220,7 @@ namespace ProjectUD
             /// Для данного метода sender и LocalButtonSender - одни и теже
             /// Это подразумевается, но чтобы убедиться в этом используем проверку на эквивалентность объектов.
             //System.Windows.Forms.MessageBox.Show("sender.Equals(LocalButtonSender) = " + sender.Equals(LocalButtonSender), "");
-
             int i = listViewExDownloads.IndexItems(LocalButtonSender as Control);
-
             if (i != -1)
             {
                 if (((Button)LocalButtonSender).Name == states[0])
@@ -224,6 +228,7 @@ namespace ProjectUD
                     this._LYTC[i].stopDownloadViaWebClient();
                     ((Button)LocalButtonSender).Image = Properties.Resources.reload_icon;
                     ((Button)LocalButtonSender).Name = states[1];
+                    this._L_bttnReloadName_States[i] = states[1];
                 }//стоп
                 else if (((Button)LocalButtonSender).Name == states[1])
                 {
@@ -231,6 +236,7 @@ namespace ProjectUD
                     this._LYTC[i].startDownloadViaWebClient();
                     ((Button)LocalButtonSender).Image = Properties.Resources.stop;
                     ((Button)LocalButtonSender).Name = states[0];
+                    this._L_bttnReloadName_States[i] = states[0];
                 }//перезагрузка
                 else if (((Button)LocalButtonSender).Name == states[2])
                 {
@@ -249,15 +255,30 @@ namespace ProjectUD
 
             return delegate(object MainButtonSender, EventArgs e)
             {
-                this.bttnReload(LocalButtonSender, null);
-                /*
-                if (((Button)LocalButtonSender).Name != (((Button)MainButtonSender).Name))     
+                //while (!button2Name_Chang){};
+                
+                int i = listViewExDownloads.IndexItems(LocalButtonSender as Control);
+                if (i != -1)
                 {
-                    
+                    this._L_bttnReloadName_Chang[i]=false;
+                    if ((this._L_bttnReloadName_States[i] == states[0]) &&
+                        (this.button2Name == states[1]))
+                    {
+                        this.bttnReload(LocalButtonSender, null);
+                    }
+                    else
+                    if ((this._L_bttnReloadName_States[i] == states[1]) &&
+                        (this.button2Name == states[0]))
+                    {
+                        this.bttnReload(LocalButtonSender, null);
+                    }
+                    this._L_bttnReloadName_Chang[i] = true;
+                    /*
+                    if (((Button)LocalButtonSender).Name != (((Button)MainButtonSender).Name))     
+                    {}
+                    button2Name = (((Button)MainButtonSender).Name);
+                    */
                 }
-                button2Name = (((Button)MainButtonSender).Name);
-                */
-
             };
         }
         private void addItemsToListView(/*YouTubeContext _YTC*/int i, int _proc, bool _completed = false)
@@ -277,7 +298,6 @@ namespace ProjectUD
                 //Создаём событие на глобыльную кнопку удалить "удалить всё"(ну и подписываем на это событие глобальную кнопку "кнопку удалить всё")
                 this.button1.Click += new EventHandler(this.MainbttnDel(buttonDel));
                 //для подключения в трее использовать ....Click += new EventHandler(this.button1_Click);
-            
             /*    
             Action<object, EventArgs> bttnDel = delegate(object sender, EventArgs e)
                 {
@@ -334,24 +354,37 @@ namespace ProjectUD
         
         private void button2_Click(object sender, EventArgs e)
         {
-            if (button2Name == states[0])
+            
+            for (int w = 0; w < this._L_bttnReloadName_Chang.Count; w++) { this._L_bttnReloadName_Chang[w] = true; }
+                if (button2Name == states[0])
+                {
+                    button2.Image = Properties.Resources.reload_icon;
+                    button2Name = states[1];
+                    //button2.Image = Properties.Resources.stop;
+                    //button2Name = states[0];
+                }
+                //перезагрузка
+                else if (button2Name == states[1])
+                {
+                    button2.Image = Properties.Resources.stop;
+                    button2Name = states[0];
+                }
+                //открыть
+                else if (button2.Name == states[2])
+                {
+                    System.Diagnostics.Process.Start(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text);
+                }
+
+            
+            button2Name_Chang = true;
+            bool qwes=false;
+            while (!qwes)
             {
-                button2.Image = Properties.Resources.reload_icon;
-                button2Name = states[1];
-                //button2.Image = Properties.Resources.stop;
-                //button2Name = states[0];
+                qwes =  true;
+                for (int w = 0; w < this._L_bttnReloadName_Chang.Count; w++)
+                { qwes = qwes && this._L_bttnReloadName_Chang[w]; }
             }
-            //перезагрузка
-            else if (button2Name == states[1])
-            {
-                button2.Image = Properties.Resources.stop;
-                button2Name = states[0];
-            }
-            //открыть
-            else if (button2.Name == states[2])
-            {
-                System.Diagnostics.Process.Start(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text);
-            }
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
