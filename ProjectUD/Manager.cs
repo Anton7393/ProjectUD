@@ -31,7 +31,7 @@ namespace ProjectUD
             contextMenuStripList.Items[0].Visible = false;
             contextMenuStripList.Items[1].Visible = false;
             contextMenuStripList.Items[2].Visible = false;
-
+            notifyIcon1.Text = "YouTube Downloader";
   
 
         }
@@ -405,9 +405,9 @@ namespace ProjectUD
 
         private void listViewExDownloads_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
+            /*
             if (listViewExDownloads.SelectedItems.Count == 1)
             {
-    
                 if (listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Name == states[0])
                 {
                     contextMenuStripList.Items[0].Visible = false;
@@ -435,42 +435,47 @@ namespace ProjectUD
                 contextMenuStripList.Items[2].Visible = false;
 
             }
-            
+            */
         }
-
+        
         private void listViewExDownloads_Click(object sender, EventArgs e)
         {
-            if (listViewExDownloads.SelectedItems.Count == 1)
+            /*
+           // if (e == MouseButtons.Left)
             {
 
-                if (listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Name == states[0])
+                if (listViewExDownloads.SelectedItems.Count == 1)
                 {
-                    contextMenuStripList.Items[0].Visible = false;
-                    contextMenuStripList.Items[1].Visible = true;
-                    contextMenuStripList.Items[2].Visible = false;
 
+                    if (listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Name == states[0])
+                    {
+                        contextMenuStripList.Items[0].Visible = false;
+                        contextMenuStripList.Items[1].Visible = true;
+                        contextMenuStripList.Items[2].Visible = false;
+
+                    }
+                    else if (listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Name == states[1])
+                    {
+                        contextMenuStripList.Items[0].Visible = false;
+                        contextMenuStripList.Items[1].Visible = false;
+                        contextMenuStripList.Items[2].Visible = true;
+                    }
+                    else if (listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Name == states[2])
+                    {
+                        contextMenuStripList.Items[0].Visible = true;
+                        contextMenuStripList.Items[1].Visible = false;
+                        contextMenuStripList.Items[2].Visible = false;
+                    }
                 }
-                else if (listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Name == states[1])
+                else
                 {
                     contextMenuStripList.Items[0].Visible = false;
                     contextMenuStripList.Items[1].Visible = false;
-                    contextMenuStripList.Items[2].Visible = true;
-                }
-                else if (listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Name == states[2])
-                {
-                    contextMenuStripList.Items[0].Visible = true;
-                    contextMenuStripList.Items[1].Visible = false;
                     contextMenuStripList.Items[2].Visible = false;
-                }
-            }
-            else
-            {
-                contextMenuStripList.Items[0].Visible = false;
-                contextMenuStripList.Items[1].Visible = false;
-                contextMenuStripList.Items[2].Visible = false;
 
-            }
-            
+                }
+            }*/  
         }
+        
     }
 }
