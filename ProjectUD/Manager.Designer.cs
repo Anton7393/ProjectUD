@@ -36,6 +36,23 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.buttonInfo = new System.Windows.Forms.Button();
+	    
+	    
+	    
+            this.contextMenuStripList = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.остановитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.перезапуститьЗакачкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.остановитьЗакачкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.перезапуститьВсеЗакачкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
             this.listViewExDownloads = new ProjectUD.ListViewEx();
             this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -52,7 +69,16 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.listViewExDownloads = new ProjectUD.ListViewEx();
+            this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderLink = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderProcess = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderButton = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderRelaod = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel2.SuspendLayout();
+            this.contextMenuStripList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -92,9 +118,8 @@
             this.panel2.Controls.Add(this.buttonAddDownloads);
             this.panel2.Location = new System.Drawing.Point(12, 14);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(670, 285);
+            this.panel2.Size = new System.Drawing.Size(670, 284);
             this.panel2.TabIndex = 4;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // button2
             // 
@@ -132,18 +157,18 @@
             this.buttonInfo.UseVisualStyleBackColor = true;
             this.buttonInfo.Click += new System.EventHandler(this.buttonInfo_Click);
             // 
-            // listViewExDownloads
+            // contextMenuStripList
             // 
-            this.listViewExDownloads.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listViewExDownloads.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeaderName,
-            this.columnHeaderPath,
-            this.columnHeaderLink,
-            this.columnHeaderProcess,
-            this.columnHeaderButton,
-            this.columnHeaderRelaod});
+            this.contextMenuStripList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem7,
+            this.остановитьToolStripMenuItem,
+            this.перезапуститьЗакачкуToolStripMenuItem,
+            this.остановитьЗакачкуToolStripMenuItem,
+            this.перезапуститьВсеЗакачкиToolStripMenuItem});
+            this.contextMenuStripList.Name = "contextMenuStripList";
+            this.contextMenuStripList.Size = new System.Drawing.Size(223, 114);
+            this.contextMenuStripList.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripList_Opening);
+            
             this.listViewExDownloads.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
             this.listViewExDownloads.HideSelection = false;
             this.listViewExDownloads.HoverSelection = true;
@@ -154,31 +179,37 @@
             this.listViewExDownloads.UseCompatibleStateImageBehavior = false;
             this.listViewExDownloads.View = System.Windows.Forms.View.Details;
             // 
-            // columnHeaderName
+            // toolStripMenuItem7
             // 
-            this.columnHeaderName.Text = "Имя";
-            this.columnHeaderName.Width = 86;
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(222, 22);
+            this.toolStripMenuItem7.Text = "Открыть";
+            this.toolStripMenuItem7.Click += new System.EventHandler(this.toolStripMenuItem7_Click);
             // 
-            // columnHeaderPath
+            // остановитьToolStripMenuItem
             // 
-            this.columnHeaderPath.Text = "Путь";
-            this.columnHeaderPath.Width = 180;
+            this.остановитьToolStripMenuItem.Name = "остановитьToolStripMenuItem";
+            this.остановитьToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.остановитьToolStripMenuItem.Text = "Остановить закачку";
+            this.остановитьToolStripMenuItem.Click += new System.EventHandler(this.остановитьToolStripMenuItem_Click);
             // 
-            // columnHeaderLink
+            // перезапуститьЗакачкуToolStripMenuItem
             // 
-            this.columnHeaderLink.Text = "Ссылка";
-            this.columnHeaderLink.Width = 164;
+            this.перезапуститьЗакачкуToolStripMenuItem.Name = "перезапуститьЗакачкуToolStripMenuItem";
+            this.перезапуститьЗакачкуToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.перезапуститьЗакачкуToolStripMenuItem.Text = "Перезапустить закачку";
             // 
-            // columnHeaderProcess
+            // остановитьЗакачкуToolStripMenuItem
             // 
-            this.columnHeaderProcess.Text = "Процесс";
-            this.columnHeaderProcess.Width = 123;
+            this.остановитьЗакачкуToolStripMenuItem.Name = "остановитьЗакачкуToolStripMenuItem";
+            this.остановитьЗакачкуToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.остановитьЗакачкуToolStripMenuItem.Text = "Остановить все закачки";
             // 
-            // columnHeaderButton
+            // перезапуститьВсеЗакачкиToolStripMenuItem
             // 
-            this.columnHeaderButton.Text = "";
-            this.columnHeaderButton.Width = 38;
-            // 
+            this.перезапуститьВсеЗакачкиToolStripMenuItem.Name = "перезапуститьВсеЗакачкиToolStripMenuItem";
+            this.перезапуститьВсеЗакачкиToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.перезапуститьВсеЗакачкиToolStripMenuItem.Text = "Перезапустить все закачки";
             // columnHeaderRelaod
             // 
             this.columnHeaderRelaod.Text = "";
@@ -191,7 +222,7 @@
             this.notifyIcon1.BalloonTipTitle = "Приложение UD";
             this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Text = "YouTube Downloader";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
             // 
@@ -248,12 +279,67 @@
             this.toolStripMenuItem5.Text = "Выход";
             this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
             // 
+            // listViewExDownloads
+            // 
+            this.listViewExDownloads.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewExDownloads.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeaderName,
+            this.columnHeaderPath,
+            this.columnHeaderLink,
+            this.columnHeaderProcess,
+            this.columnHeaderButton,
+            this.columnHeaderRelaod});
+            this.listViewExDownloads.ContextMenuStrip = this.contextMenuStripList;
+            this.listViewExDownloads.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
+            this.listViewExDownloads.FullRowSelect = true;
+            this.listViewExDownloads.HideSelection = false;
+            this.listViewExDownloads.HoverSelection = true;
+            this.listViewExDownloads.Location = new System.Drawing.Point(3, 62);
+            this.listViewExDownloads.Name = "listViewExDownloads";
+            this.listViewExDownloads.Size = new System.Drawing.Size(662, 217);
+            this.listViewExDownloads.TabIndex = 2;
+            this.listViewExDownloads.UseCompatibleStateImageBehavior = false;
+            this.listViewExDownloads.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeaderName
+            // 
+            this.columnHeaderName.Text = "Имя";
+            this.columnHeaderName.Width = 86;
+            // 
+            // columnHeaderPath
+            // 
+            this.columnHeaderPath.Text = "Путь";
+            this.columnHeaderPath.Width = 180;
+            // 
+            // columnHeaderLink
+            // 
+            this.columnHeaderLink.Text = "Ссылка";
+            this.columnHeaderLink.Width = 164;
+            // 
+            // columnHeaderProcess
+            // 
+            this.columnHeaderProcess.Text = "Процесс";
+            this.columnHeaderProcess.Width = 124;
+            // 
+            // columnHeaderButton
+            // 
+            this.columnHeaderButton.Text = "";
+            this.columnHeaderButton.Width = 38;
+            // 
+            // columnHeaderRelaod
+            // 
+            this.columnHeaderRelaod.Text = "";
+            this.columnHeaderRelaod.Width = 38;
+            // 
             // Manager
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+	    
+           this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(694, 312);
+//            this.ClientSize = new System.Drawing.Size(694, 311);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
@@ -267,6 +353,7 @@
             this.Load += new System.EventHandler(this.Manager_Load);
             this.Resize += new System.EventHandler(this.Manager_Resize);
             this.panel2.ResumeLayout(false);
+            this.contextMenuStripList.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -297,6 +384,13 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripList;
+        private System.Windows.Forms.ToolStripMenuItem остановитьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem перезапуститьЗакачкуToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem остановитьЗакачкуToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem перезапуститьВсеЗакачкиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
     }
 }
 

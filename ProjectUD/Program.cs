@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
+using System.IO;
+using System.Diagnostics;
+using System.Windows;
 
 namespace ProjectUD
 {
@@ -16,7 +20,14 @@ namespace ProjectUD
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Manager());
+            using (var mutex = new Mutex(false, Application.ProductName))
+            {
+                if (mutex.WaitOne(TimeSpan.FromSeconds(3))) // Подождать три секунды - вдруг предыдущий экземпляр еще закрывается
+                    Application.Run(new Manager());
+                else
+               //          .Start(mutex.Handle);
+                MessageBox.Show("Приложение уже запущено, доступно управление через трей.", "Приложение уже запущено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }
