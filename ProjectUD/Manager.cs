@@ -386,71 +386,79 @@ namespace ProjectUD
        }
        private void addItemsToListView(/*YouTubeContext _YTC*/int i, int _proc, bool _completed = false)
        {
-           string _name = _LYTC[i].Name;
-           string _path = _LYTC[i].Path;
-           string _link = _LYTC[i].Link;
-           Label label = new Label();
-               label.Text = _path;
-           Button buttonDel = new Button();
-               buttonDel.Text = "";
-               buttonDel.Image = Properties.Resources.cancel;
-               buttonDel.Name = "delete";
-                toolTip.SetToolTip(buttonDel, "Удалить");
-
-                //Создаём событие на локальную кнопку удалить (ну и подписываем на это событие локальную кнопку)
-                buttonDel.Click += new EventHandler(this.bttnDel);
-               //buttonDel.Click += new EventHandler(this.bttnDel(buttonDel));
-               //Создаём событие на глобыльную кнопку удалить "удалить всё"(ну и подписываем на это событие глобальную кнопку "кнопку удалить всё")
-               this.button1.Click += new EventHandler(this.MainbttnDel(buttonDel));
-               //для подключения в трее использовать ....Click += new EventHandler(this.button1_Click);
-    Button buttonReload = new Button();
-               buttonReload.Text = "";
-               buttonReload.Image = Properties.Resources.stop;
-               buttonReload.Name = states[0];//В имени статус
-               buttonReload.Click += new EventHandler(this.bttnReload);
-               this.button2.Click += new EventHandler(this.MainbttnReload(buttonReload));
-               toolTip.SetToolTip(buttonReload, "Остановить");
-
+            string _name = _LYTC[i].Name;
+            string _path = _LYTC[i].Path;
+            string _link = _LYTC[i].Link;
+            Label label = new Label();
+            label.Text = _path;
+            Button buttonDel = new Button();
+            buttonDel.Text = "";
+            buttonDel.Image = Properties.Resources.cancel;
+            buttonDel.Name = "delete";
+            toolTip.SetToolTip(buttonDel, "Удалить");
+            //Создаём событие на локальную кнопку удалить (ну и подписываем на это событие локальную кнопку)
+            buttonDel.Click += new EventHandler(this.bttnDel);
+            //buttonDel.Click += new EventHandler(this.bttnDel(buttonDel));
+            //Создаём событие на глобыльную кнопку удалить "удалить всё"(ну и подписываем на это событие глобальную кнопку "кнопку удалить всё")
+            this.button1.Click += new EventHandler(this.MainbttnDel(buttonDel));
+            //для подключения в трее использовать ....Click += new EventHandler(this.button1_Click);
+            Button buttonReload = new Button();
+            buttonReload.Text = "";
+            buttonReload.Image = Properties.Resources.stop;
+            buttonReload.Name = states[0];//В имени статус
+            buttonReload.Click += new EventHandler(this.bttnReload);
+            this.button2.Click += new EventHandler(this.MainbttnReload(buttonReload));
+            toolTip.SetToolTip(buttonReload, "Остановить");
             //для подключения в трее использовать ....Click += new EventHandler(this.button2_Click);
             TextBox textBox = new TextBox();
-               textBox.ReadOnly = true;
-               textBox.Text = _link;
-           ProgressBar progressBar = new ProgressBar();
-           _LYTC[i].SetProgressBarAction(
-               (Action<object, System.Net.DownloadProgressChangedEventArgs>)
-               delegate(object sender, System.Net.DownloadProgressChangedEventArgs e)
-               {progressBar.Value = e.ProgressPercentage;
-                   toolTip.SetToolTip(progressBar, "Скачано: " + e.ProgressPercentage + "%");
-
-                   if (progressBar.Value == 100)
-                   {
-                       buttonReload.Name = states[2];
-                       buttonReload.Image = Properties.Resources.open;
-                       toolTip.SetToolTip(progressBar, "Скачивание завершено");
-                       toolTip.SetToolTip(buttonReload, "Открыть");
-
-                   }
-               }
-           );
+            textBox.ReadOnly = true;
+            textBox.Text = _link;
+            ProgressBar progressBar = new ProgressBar();
+            _LYTC[i].SetProgressBarAction(
+                (Action<object, System.Net.DownloadProgressChangedEventArgs>)
+                delegate(object sender, System.Net.DownloadProgressChangedEventArgs e)
+                {
+                    progressBar.Value = e.ProgressPercentage;
+                    
+                    if (progressBar.Value == 100)
+                    {
+                        buttonReload.Name = states[2];
+                        buttonReload.Image = Properties.Resources.open;
+                        toolTip.SetToolTip(progressBar, "Скачивание завершено");
+                        toolTip.SetToolTip(buttonReload, "Открыть");
+                    }
+                }
+            );
+            progressBar.MouseHover += delegate(object LocalButtonSender, EventArgs e)
+            {
+                if (progressBar.Value == 100)
+                {
+                    toolTip.SetToolTip(progressBar, "Видео загружено");
+                }
+                else
+                {
+                    toolTip.SetToolTip(progressBar, "Скачано: " + Convert.ToString(progressBar.Value) + "%");
+                }
+            };
             string[] row = { _name, _path };
             var listViewItem = new ListViewItem(row);
             listViewExDownloads.Items.Add(listViewItem);
             if (_completed)
-           {
-               //progressBar.Value = 100;
-               buttonDel.Visible = false;
-               buttonReload.Visible = false;
-           }
-           else
-           {
-               //progressBar.Value = _proc; //Костыль!!!
-           }
-           listViewExDownloads.AddEmbeddedControl(buttonDel, 5, listViewExDownloads.Items.Count - 1);
-           listViewExDownloads.AddEmbeddedControl(buttonReload, 4, listViewExDownloads.Items.Count - 1);
-           listViewExDownloads.AddEmbeddedControl(textBox, 2, listViewExDownloads.Items.Count - 1);
-           listViewExDownloads.AddEmbeddedControl(progressBar, 3, listViewExDownloads.Items.Count - 1);
-     //      listViewExDownloads.AddEmbeddedControl(label, 1, listViewExDownloads.Items.Count - 1);
-           listViewExDownloads.Update();
+            {
+                //progressBar.Value = 100;
+                buttonDel.Visible = false;
+                buttonReload.Visible = false;
+            }
+            else
+            {
+                //progressBar.Value = _proc; //Костыль!!!
+            }
+            listViewExDownloads.AddEmbeddedControl(buttonDel, 5, listViewExDownloads.Items.Count - 1);
+            listViewExDownloads.AddEmbeddedControl(buttonReload, 4, listViewExDownloads.Items.Count - 1);
+            listViewExDownloads.AddEmbeddedControl(textBox, 2, listViewExDownloads.Items.Count - 1);
+            listViewExDownloads.AddEmbeddedControl(progressBar, 3, listViewExDownloads.Items.Count - 1);
+            //listViewExDownloads.AddEmbeddedControl(label, 1, listViewExDownloads.Items.Count - 1);
+            listViewExDownloads.Update();
             this.Top = 1;
         }
        
