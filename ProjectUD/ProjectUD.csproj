@@ -86,6 +86,7 @@
       <DependentUpon>AddDownloads.cs</DependentUpon>
     </Compile>
     <Compile Include="DataContext.cs" />
+    <Compile Include="EventGenerator.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Info.cs">
       <SubType>Form</SubType>
