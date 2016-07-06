@@ -19,12 +19,7 @@ namespace ProjectUD
 
     class DataContext : DbContext
     {
-        public DataContext()
-            : base("DbConnection")
-        {
-
-        }
-
+        public DataContext(): base("DbConnection"){}
         public void addDataToDB(YouTubeContext _youTubeContext, int _progress = 100)
         {
             VideoData data = new VideoData();
@@ -40,8 +35,13 @@ namespace ProjectUD
 
         public void removeDataFromDB(YouTubeContext _youTubeContext)
         {
-            var infoToRemove = _youTubeContext.Date.ToString("yyyy-MM-dd HH:mm:ss");
-            var itemToRemove = this.VideoDatas.Where(row => row.Date == infoToRemove);
+            //удаление по дате не очень работает.
+            //Нужно додумывать
+            //var infoToRemove = _youTubeContext.Date.ToString("yyyy-MM-dd HH:mm:ss");
+            //var itemToRemove = this.VideoDatas.Where(row => row.Date == infoToRemove);
+
+            var infoToRemove = _youTubeContext.Name;
+            var itemToRemove = this.VideoDatas.Where(row => row.Name == infoToRemove);
 
             if (itemToRemove != null)
             {

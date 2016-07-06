@@ -207,13 +207,6 @@ C:\Users\Egorkka\Desktop\ProjectUD-merger000\ProjectUD\obj\Debug\ProjectUD.Manag
 C:\Users\Egorkka\Desktop\ProjectUD-merger000\ProjectUD\obj\Debug\ProjectUD.Properties.Resources.resources
 C:\Users\Egorkka\Desktop\ProjectUD-merger000\ProjectUD\obj\Debug\ProjectUD.csproj.GenerateResource.Cache
 D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\bin\Debug\ProjectUD.exe.config
-D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\obj\Debug\ProjectUD.exe
-D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\obj\Debug\ProjectUD.pdb
-D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\obj\Debug\ProjectUD.AddDownloads.resources
-D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\obj\Debug\ProjectUD.Info.resources
-D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\obj\Debug\ProjectUD.Manager.resources
-D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\obj\Debug\ProjectUD.Properties.Resources.resources
-D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\obj\Debug\ProjectUD.csproj.GenerateResource.Cache
 D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\bin\Debug\ProjectUD.exe
 D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\bin\Debug\ProjectUD.pdb
 D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\bin\Debug\EntityFramework.dll
@@ -221,3 +214,10 @@ D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\bin\Debug\EntityFramework.SqlServer.dl
 D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\bin\Debug\libvideo.dll
 D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\bin\Debug\EntityFramework.xml
 D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\bin\Debug\EntityFramework.SqlServer.xml
+D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\obj\Debug\ProjectUD.AddDownloads.resources
+D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\obj\Debug\ProjectUD.Info.resources
+D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\obj\Debug\ProjectUD.Manager.resources
+D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\obj\Debug\ProjectUD.Properties.Resources.resources
+D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\obj\Debug\ProjectUD.csproj.GenerateResource.Cache
+D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\obj\Debug\ProjectUD.exe
+D:\Git\ProjectUD\ProjectUD_Work\ProjectUD\obj\Debug\ProjectUD.pdb

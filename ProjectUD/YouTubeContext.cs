@@ -78,6 +78,10 @@ namespace ProjectUD
 
         public void startDownloadViaWebClient()
         {
+            if (mSelectedVideo.Uri.Length == 0)
+            {
+                System.Windows.Forms.MessageBox.Show("","");
+            }
             Date = DateTime.Now;
             this.mClient = new WebClient();
             this.mClient.DownloadFileAsync(new Uri(mSelectedVideo.Uri), Path);
@@ -92,7 +96,7 @@ namespace ProjectUD
         public string FileExtention { get; private set; }
         public int Resolution { get; private set; }
         public string Format { get; private set; }
-        public DateTime Date { get; private set; }
+        public DateTime Date ;//{ get; public set; }
         public string Title { get; private set; }
         public string Link { get; private set; }
         public string Path { get; set; }

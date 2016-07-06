@@ -252,8 +252,18 @@ namespace ProjectUD
             //this.textBoxName.Focus();
         }    
         private void textBoxLink_TextChanged(object sender, EventArgs e)
+        {}
+        public bool GetInf(ref YouTubeContext _YTC) 
         {
+            _YTC = this.mYouTubeContext;
 
-        }    
+            _YTC.Date = System.DateTime.Now;
+            //.ToString("yyyy-MM-dd HH:mm:ss");
+            if (this.DialogResult == DialogResult.OK)
+            {
+                return true;
+            }
+            return false;
+        }
 }
 }

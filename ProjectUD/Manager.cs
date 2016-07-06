@@ -9,13 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms; 
 namespace ProjectUD
 {
+    //public partial class ProgressBarnew : ProgressBar{public Actiono<object, EventArgs> ProgressFin = delegate(object sender, EventArgs e) { };}
     public partial class Manager : Form
     {
         private List<YouTubeContext> _LYTC = new List<YouTubeContext>();
         private List<string> _L_bttnReloadName_States = new List<string>();
         private List<bool> _L_bttnReloadName_Chang = new List<bool>();
         private string button2Name = "";
-        private bool button2Name_Chang = false; 
+        private bool button2Name_Chang = false;
+        private DataContext DataContext_ = new DataContext();
         //Статусы кнопок
         private String[] states = { "stop", "reload", "open" };
         public bool usbd = true;
@@ -63,7 +65,7 @@ namespace ProjectUD
                 this._LYTC.Add(FormAddDownloads.returnContext());
                 {
                     int q = this._LYTC.Count - 1;
-                    (new DataContext()).addDataToDB(this._LYTC[q]);
+                    (new DataContext()).addDataToDB(this._LYTC[q],0);
                     addItemsToListView(q, 0, true);
                     this._L_bttnReloadName_Chang.Add(true);
                     this._L_bttnReloadName_States.Add(states[0]);
@@ -79,7 +81,6 @@ namespace ProjectUD
 
         private void buttonInfo_Click(object sender, EventArgs e)
         {
-            
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = false;
             contextMenuStrip1.Items[2].Visible = false;
@@ -90,17 +91,24 @@ namespace ProjectUD
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = true;
             contextMenuStrip1.Items[2].Visible = true;
-            
         }
 
         private void addItemsToListViewFromDB()
         {
-            using (var database = new DataContext())
+            using (var database = DataContext_)
             {
                 var videoData = database.getDataFromDB();//VideoDatas;
                 foreach (var videoItem in videoData)
                 {
                     //addItemsToListView(new YouTubeContext(videoItem.Name, videoItem.Path, videoItem.Link), 100, true);
+                    this._LYTC.Add(new YouTubeContext(videoItem.Name, videoItem.Path, videoItem.Link));
+                    {
+                        int q = this._LYTC.Count - 1;
+                        (new DataContext()).addDataToDB(this._LYTC[q], videoItem.Progress);
+                        addItemsToListView(q, 0, true);
+                        this._L_bttnReloadName_Chang.Add(true);
+                        this._L_bttnReloadName_States.Add(states[0]);
+                    }
                 }
             }
         }
@@ -419,21 +427,25 @@ namespace ProjectUD
                 delegate(object sender, System.Net.DownloadProgressChangedEventArgs e)
                 {
                     progressBar.Value = e.ProgressPercentage;
-                    
+                    int j = listViewExDownloads.IndexItems(sender as Control);
                     if (progressBar.Value == 100)
                     {
                         buttonReload.Name = states[2];
                         buttonReload.Image = Properties.Resources.open;
-                        toolTip.SetToolTip(progressBar, "Скачивание завершено");
+                        //toolTip.SetToolTip(progressBar, "Скачивание завершено");
                         toolTip.SetToolTip(buttonReload, "Открыть");
+                        (new DataContext()).removeDataFromDB(this._LYTC[j]);
+                        (new DataContext()).addDataToDB(this._LYTC[j], 100);
                     }
                 }
             );
+           //progressBar.Prog
             progressBar.MouseHover += delegate(object LocalButtonSender, EventArgs e)
             {
                 if (progressBar.Value == 100)
                 {
                     toolTip.SetToolTip(progressBar, "Видео загружено");
+
                 }
                 else
                 {
@@ -501,5 +513,10 @@ namespace ProjectUD
            
        }
    #endregion
+
+       private void progressBar1_Click(object sender, EventArgs e)
+       {
+
+       }
    }
 }
