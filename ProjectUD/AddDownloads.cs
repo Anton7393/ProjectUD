@@ -38,10 +38,12 @@ namespace ProjectUD
 
         private void buttonPaste_Click(object sender, EventArgs e)
         {
+            if(Clipboard.GetText() != "") { 
             textBoxLink.Text = Clipboard.GetText();
             pictureBox2.Image = Properties.Resources.YouTube_logo_full_color;
             InspectionURL();
             this.textBoxName.Focus();
+            }
         }
 
         private void buttonAddDownload_Click(object sender, EventArgs e)
@@ -132,8 +134,8 @@ namespace ProjectUD
         {
             if (!Helper.isValidUrl(textBoxLink.Text) || !textBoxLink.Text.ToLower().Contains("www.youtube.com/watch?"))
             {
+                if(textBoxLink.Text.Split('/').Length>=4)
                 textBoxLink.Text = "https://www.youtube.com/watch?v="+textBoxLink.Text.Split('/')[3];
-                //System.Windows.Forms.MessageBox.Show("textBoxLink.Text\n" + textBoxLink.Text.Split('/')[3], "");
             }
             try
             {

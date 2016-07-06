@@ -33,9 +33,15 @@ namespace ProjectUD
             contextMenuStrip1.Items[3].Enabled = false;
             contextMenuStrip1.Items[4].Enabled = false;
             //Делаем недоступным пункты контекстного меню
-            contextMenuStripList.Items[0].Visible = false;
-            contextMenuStripList.Items[1].Visible = false;
-            contextMenuStripList.Items[2].Visible = false;
+            
+            contextMenuStripList.Items[3].Click += new EventHandler(this.bttnDel);
+            contextMenuStripList.Items[1].Click += new EventHandler(this.ctxStop);
+            contextMenuStripList.Items[2].Click += new EventHandler(this.ctxReload);
+
+            contextMenuStripList.Update();
+            contextMenuStripList.Show();
+            contextMenuStripList.Hide();
+            
             notifyIcon1.Text = "YouTube Downloader";
             toolTip.SetToolTip(button2, "Остановить все");
             toolTip.SetToolTip(button1, "Удалить все");
@@ -265,35 +271,36 @@ namespace ProjectUD
       }
       private void contextMenuStripList_Opening(object sender, CancelEventArgs e)
        {
-               if (listViewExDownloads.SelectedItems.Count == 1)
-               {
-                   contextMenuStripList.Show(Cursor.Position);
-                   if (listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Name == states[0])
-                   {
-                       contextMenuStripList.Items[0].Visible = false;
-                       contextMenuStripList.Items[1].Visible = true;
-                       contextMenuStripList.Items[2].Visible = false;
-                   }
-                   else if (listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Name == states[1])
-                   {
-                       contextMenuStripList.Items[0].Visible = false;
-                       contextMenuStripList.Items[1].Visible = false;
-                       contextMenuStripList.Items[2].Visible = true;
-                   }
-                   else if (listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Name == states[2])
-                   {
-                       contextMenuStripList.Items[0].Visible = true;
-                       contextMenuStripList.Items[1].Visible = false;
-                       contextMenuStripList.Items[2].Visible = false;
-                   }
-               }
-               else
-               {
-                   contextMenuStripList.Items[0].Visible = false;
-                   contextMenuStripList.Items[1].Visible = false;
-                   contextMenuStripList.Items[2].Visible = false;
-               }
-       }
+
+            if (listViewExDownloads.SelectedItems.Count == 1)
+            {
+                if (listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Name == states[0])
+                {
+                    contextMenuStripList.Items[0].Visible = false;
+                    contextMenuStripList.Items[1].Visible = true;
+                    contextMenuStripList.Items[2].Visible = false;
+                    contextMenuStripList.Items[3].Visible = true;
+
+                }
+                else if (listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Name == states[1])
+                {
+                    contextMenuStripList.Items[0].Visible = false;
+                    contextMenuStripList.Items[1].Visible = false;
+                    contextMenuStripList.Items[2].Visible = true;
+                    contextMenuStripList.Items[3].Visible = true;
+
+                }
+                else if (listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Name == states[2])
+                {
+                    contextMenuStripList.Items[0].Visible = true;
+                    contextMenuStripList.Items[1].Visible = false;
+                    contextMenuStripList.Items[2].Visible = false;
+                    contextMenuStripList.Items[3].Visible = true;
+                }
+            }
+            else
+                e.Cancel = true;
+        }
 		
    #endregion
     #region qwe
@@ -308,6 +315,33 @@ namespace ProjectUD
                 this._L_bttnReloadName_States.RemoveAt(i);
                 this._L_bttnReloadName_Chang.RemoveAt(i);
                 listViewExDownloads.Items.RemoveAt(i);
+            }
+        }
+        private void ctxStop(object LocalButtonSender, EventArgs e)
+        {
+            int i = listViewExDownloads.SelectedItems[0].Index;
+            if (i != -1)
+            {
+                this._LYTC[i].stopDownloadViaWebClient();
+                //    ((Button)LocalButtonSender).Image = Properties.Resources.reload_icon;
+                //    ((Button)LocalButtonSender).Name = states[1];
+                ///    this._L_bttnReloadName_States[i] = states[1];
+                //    toolTip.SetToolTip(((Button)LocalButtonSender), "Перезагрузить");
+            }
+        }
+        private void ctxReload(object LocalButtonSender, EventArgs e)
+        {
+            int i = listViewExDownloads.SelectedItems[0].Index;
+            if (i != -1)
+            {
+               
+                this._LYTC[i].stopDownloadViaWebClient();
+                this._LYTC[i].startDownloadViaWebClient();
+
+                //    ((Button)LocalButtonSender).Image = Properties.Resources.stop;
+                //    ((Button)LocalButtonSender).Name = states[0];
+                //    this._L_bttnReloadName_States[i] = states[0];
+                //    toolTip.SetToolTip(((Button)LocalButtonSender), "Остановить");
             }
         }
         private Action<object, EventArgs> MainbttnDel(object LocalButtonSender)
@@ -403,7 +437,7 @@ namespace ProjectUD
                //Создаём событие на глобыльную кнопку удалить "удалить всё"(ну и подписываем на это событие глобальную кнопку "кнопку удалить всё")
                this.button1.Click += new EventHandler(this.MainbttnDel(buttonDel));
                //для подключения в трее использовать ....Click += new EventHandler(this.button1_Click);
-    Button buttonReload = new Button();
+               Button buttonReload = new Button();
                buttonReload.Text = "";
                buttonReload.Image = Properties.Resources.stop;
                buttonReload.Name = states[0];//В имени статус
@@ -426,9 +460,10 @@ namespace ProjectUD
                    {
                        buttonReload.Name = states[2];
                        buttonReload.Image = Properties.Resources.open;
+
                        toolTip.SetToolTip(progressBar, "Скачивание завершено");
                        toolTip.SetToolTip(buttonReload, "Открыть");
-
+                       
                    }
                }
            );
@@ -454,7 +489,6 @@ namespace ProjectUD
             this.Top = 1;
         }
        
-       
        private void button2_Click(object sender, EventArgs e)
        {
            
@@ -464,9 +498,6 @@ namespace ProjectUD
                    button2.Image = Properties.Resources.reload_icon;
                    button2Name = states[1];
                     toolTip.SetToolTip(button2, "Перезагрузить все");
-
-                //button2.Image = Properties.Resources.stop;
-                //button2Name = states[0];
             }
             //перезагрузка
             else if (button2Name == states[1])
@@ -477,10 +508,10 @@ namespace ProjectUD
 
             }
             //открыть
-            else if (button2.Name == states[2])
-               {
-                   System.Diagnostics.Process.Start(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text);
-               }
+          //  else if (button2.Name == states[2])
+          //     {
+          //         System.Diagnostics.Process.Start(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text);
+           //    }
            
            button2Name_Chang = true;
            bool qwes=false;
@@ -492,6 +523,7 @@ namespace ProjectUD
            }
            
        }
+       
    #endregion
    }
 }
