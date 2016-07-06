@@ -99,6 +99,7 @@
             this.textBoxLink.Name = "textBoxLink";
             this.textBoxLink.Size = new System.Drawing.Size(531, 29);
             this.textBoxLink.TabIndex = 1;
+            this.textBoxLink.TextChanged += new System.EventHandler(this.textBoxLink_TextChanged);
             this.textBoxLink.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxLink_KeyDown);
             this.textBoxLink.Leave += new System.EventHandler(this.textBoxLink_Leave);
             // 

@@ -130,6 +130,11 @@ namespace ProjectUD
 
         public void InspectionURL()
         {
+            if (!Helper.isValidUrl(textBoxLink.Text) || !textBoxLink.Text.ToLower().Contains("www.youtube.com/watch?"))
+            {
+                textBoxLink.Text = "https://www.youtube.com/watch?v="+textBoxLink.Text.Split('/')[3];
+                //System.Windows.Forms.MessageBox.Show("textBoxLink.Text\n" + textBoxLink.Text.Split('/')[3], "");
+            }
             try
             {
                 mYouTubeContext.extractYouTubeMeta(textBoxLink.Text);
@@ -182,6 +187,31 @@ namespace ProjectUD
                         buttonAddDownload.Enabled = false;
                     }
                 }
+                textBoxName.Text = "";
+                foreach (char ch in
+                                    mYouTubeContext.Title.Substring(0,
+                                        mYouTubeContext.Title.IndexOf("- YouTube")
+                                        ))
+                {
+                    if ((ch != '/')
+                        && (ch != '\\')
+                        && (ch != ':')
+                        && (ch != '"')
+                        && (ch != '@')
+                        && (ch != '|')
+                        && (ch != '<')
+                        && (ch != '>')
+                        && (ch != '*')
+                        )
+                    {
+                        if (ch == ' ')
+                        {
+                            textBoxName.Text += "_";
+                        }
+                        else
+                            textBoxName.Text += ch;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -221,5 +251,9 @@ namespace ProjectUD
             //InspectionURL();
             //this.textBoxName.Focus();
         }    
-    }
+        private void textBoxLink_TextChanged(object sender, EventArgs e)
+        {
+
+        }    
+}
 }
