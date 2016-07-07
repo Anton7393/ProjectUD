@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddDownloads));
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.textBoxLink = new System.Windows.Forms.TextBox();
             this.buttonPaste = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -39,16 +38,17 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBoxQuality = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.textBoxName = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.buttonAddDownload = new System.Windows.Forms.Button();
             this.buttonPath = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
             this.textBoxPath = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.TextBox();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -79,16 +79,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(539, 88);
             this.panel2.TabIndex = 4;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.label1.Location = new System.Drawing.Point(3, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(158, 20);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Ссылка на видео:";
             // 
             // textBoxLink
             // 
@@ -121,11 +111,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.label2);
             this.panel3.Controls.Add(this.pictureBox2);
             this.panel3.Controls.Add(this.label4);
             this.panel3.Controls.Add(this.label3);
             this.panel3.Controls.Add(this.comboBoxQuality);
-            this.panel3.Controls.Add(this.label2);
             this.panel3.Location = new System.Drawing.Point(12, 108);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(633, 147);
@@ -145,22 +135,26 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.Enabled = false;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
             this.label4.Location = new System.Drawing.Point(4, 78);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(81, 17);
             this.label4.TabIndex = 3;
             this.label4.Text = "XXX Мбайт";
+            this.label4.Visible = false;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.Enabled = false;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
             this.label3.Location = new System.Drawing.Point(4, 61);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(60, 17);
             this.label3.TabIndex = 2;
             this.label3.Text = "размер:";
+            this.label3.Visible = false;
             // 
             // comboBoxQuality
             // 
@@ -173,25 +167,15 @@
             this.comboBoxQuality.TabIndex = 1;
             this.comboBoxQuality.SelectedIndexChanged += new System.EventHandler(this.comboBoxQuality_SelectedIndexChanged);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.label2.Location = new System.Drawing.Point(3, 7);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(94, 20);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Качество:";
-            // 
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel4.Controls.Add(this.textBoxName);
             this.panel4.Controls.Add(this.label6);
+            this.panel4.Controls.Add(this.label5);
+            this.panel4.Controls.Add(this.textBoxName);
             this.panel4.Controls.Add(this.buttonAddDownload);
             this.panel4.Controls.Add(this.buttonPath);
-            this.panel4.Controls.Add(this.label5);
             this.panel4.Controls.Add(this.textBoxPath);
             this.panel4.Location = new System.Drawing.Point(12, 261);
             this.panel4.Name = "panel4";
@@ -201,21 +185,11 @@
             // textBoxName
             // 
             this.textBoxName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-            this.textBoxName.Location = new System.Drawing.Point(128, 42);
+            this.textBoxName.Location = new System.Drawing.Point(117, 42);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(342, 29);
+            this.textBoxName.Size = new System.Drawing.Size(353, 29);
             this.textBoxName.TabIndex = 5;
             this.textBoxName.TextChanged += new System.EventHandler(this.textBoxName_TextChanged);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.label6.Location = new System.Drawing.Point(3, 48);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(108, 20);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "Имя файла:";
             // 
             // buttonAddDownload
             // 
@@ -239,22 +213,12 @@
             this.buttonPath.UseVisualStyleBackColor = true;
             this.buttonPath.Click += new System.EventHandler(this.buttonPath_Click);
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.label5.Location = new System.Drawing.Point(3, 7);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(119, 20);
-            this.label5.TabIndex = 1;
-            this.label5.Text = "Сохранить в:";
-            // 
             // textBoxPath
             // 
             this.textBoxPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-            this.textBoxPath.Location = new System.Drawing.Point(128, 3);
+            this.textBoxPath.Location = new System.Drawing.Point(117, 3);
             this.textBoxPath.Name = "textBoxPath";
-            this.textBoxPath.Size = new System.Drawing.Size(419, 29);
+            this.textBoxPath.Size = new System.Drawing.Size(430, 29);
             this.textBoxPath.TabIndex = 0;
             // 
             // pictureBox1
@@ -267,12 +231,56 @@
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
             // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
+            this.label1.Location = new System.Drawing.Point(3, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(139, 19);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Ссылка на видео:";
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
+            this.label2.Location = new System.Drawing.Point(7, 7);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(80, 19);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Качество:";
+            // 
+            // label5
+            // 
+            this.label5.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
+            this.label5.Location = new System.Drawing.Point(7, 9);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(104, 19);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Сохранить в:";
+            // 
+            // label6
+            // 
+            this.label6.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
+            this.label6.Location = new System.Drawing.Point(7, 48);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(104, 19);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "Имя   файла:";
+            // 
             // AddDownloads
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(657, 357);
+            this.ClientSize = new System.Drawing.Size(657, 356);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.pictureBox1);
@@ -285,7 +293,7 @@
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(673, 395);
             this.Name = "AddDownloads";
-            this.Text = "Добавить закачку";
+            this.Text = "Добавить загрузку";
             this.Load += new System.EventHandler(this.AddDownloads_Load);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -306,20 +314,20 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.TextBox textBoxLink;
         private System.Windows.Forms.Button buttonPaste;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.ComboBox comboBoxQuality;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.TextBox textBoxPath;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button buttonPath;
         private System.Windows.Forms.Button buttonAddDownload;
         private System.Windows.Forms.TextBox textBoxName;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.TextBox label1;
+        private System.Windows.Forms.TextBox label2;
+        private System.Windows.Forms.TextBox label5;
+        private System.Windows.Forms.TextBox label6;
     }
 }

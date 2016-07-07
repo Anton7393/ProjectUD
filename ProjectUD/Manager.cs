@@ -16,6 +16,7 @@ namespace ProjectUD
         private List<bool> _L_bttnReloadName_Chang = new List<bool>();
         private string button2Name = "";
         private bool button2Name_Chang = false; 
+        
         //Статусы кнопок
         private String[] states = { "stop", "reload", "open" };
         public bool usbd = true;
@@ -418,7 +419,40 @@ namespace ProjectUD
                }
            };
        }
-       private void addItemsToListView(/*YouTubeContext _YTC*/int i, int _proc, bool _completed = false)
+
+        private Action<object, EventArgs> MainbttnStop(object LocalButtonSender)
+        {
+
+            return delegate (object MainButtonSender, EventArgs e)
+            {
+                //while (!button2Name_Chang){};
+
+
+                int i = listViewExDownloads.IndexItems(LocalButtonSender as Control);
+                if (i != -1)
+                {
+                    this._L_bttnReloadName_Chang[i] = false;
+                    if ((this._L_bttnReloadName_States[i] == states[0]) &&
+                        (this.button2Name == states[1]))
+                    {
+                        this.bttnReload(LocalButtonSender, null);
+                    }
+                    else
+                    if ((this._L_bttnReloadName_States[i] == states[1]) &&
+                        (this.button2Name == states[0]))
+                    {
+                        this.bttnReload(LocalButtonSender, null);
+                    }
+                    this._L_bttnReloadName_Chang[i] = true;
+                    /*
+                    if (((Button)LocalButtonSender).Name != (((Button)MainButtonSender).Name))     
+                    {}
+                    button2Name = (((Button)MainButtonSender).Name);
+                    */
+                }
+            };
+        }
+        private void addItemsToListView(/*YouTubeContext _YTC*/int i, int _proc, bool _completed = false)
        {
            string _name = _LYTC[i].Name;
            string _path = _LYTC[i].Path;
@@ -442,8 +476,10 @@ namespace ProjectUD
                buttonReload.Image = Properties.Resources.stop;
                buttonReload.Name = states[0];//В имени статус
                buttonReload.Click += new EventHandler(this.bttnReload);
-               this.button2.Click += new EventHandler(this.MainbttnReload(buttonReload));
-               toolTip.SetToolTip(buttonReload, "Остановить");
+               this.buttonReloadAll.Click += new EventHandler(this.MainbttnReload(buttonReload));
+               this.buttonStopAll.Click += new EventHandler(this.MainbttnReload(buttonReload));
+
+            toolTip.SetToolTip(buttonReload, "Остановить");
 
             //для подключения в трее использовать ....Click += new EventHandler(this.button2_Click);
             TextBox textBox = new TextBox();

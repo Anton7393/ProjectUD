@@ -206,3 +206,7 @@ C:\Users\Egorkka\Desktop\ProjectUD-merger000\ProjectUD\obj\Debug\ProjectUD.Info.
 C:\Users\Egorkka\Desktop\ProjectUD-merger000\ProjectUD\obj\Debug\ProjectUD.Manager.resources
 C:\Users\Egorkka\Desktop\ProjectUD-merger000\ProjectUD\obj\Debug\ProjectUD.Properties.Resources.resources
 C:\Users\Egorkka\Desktop\ProjectUD-merger000\ProjectUD\obj\Debug\ProjectUD.csproj.GenerateResource.Cache
+C:\Files\Git\ProjectUD\bin\Debug\ProjectUD.exe.manifest
+C:\Files\Git\ProjectUD\bin\Debug\ProjectUD.application
+C:\Files\Git\ProjectUD\obj\Debug\ProjectUD.exe.manifest
+C:\Files\Git\ProjectUD\obj\Debug\ProjectUD.application

@@ -40,6 +40,7 @@
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
             this.остановитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.перезапуститьЗакачкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -50,7 +51,8 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonStopAll = new System.Windows.Forms.Button();
+            this.buttonReloadAll = new System.Windows.Forms.Button();
             this.listViewExDownloads = new ProjectUD.ListViewEx();
             this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -69,7 +71,7 @@
             this.buttonAddDownloads.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
             this.buttonAddDownloads.Location = new System.Drawing.Point(3, 6);
             this.buttonAddDownloads.Name = "buttonAddDownloads";
-            this.buttonAddDownloads.Size = new System.Drawing.Size(166, 50);
+            this.buttonAddDownloads.Size = new System.Drawing.Size(140, 50);
             this.buttonAddDownloads.TabIndex = 1;
             this.buttonAddDownloads.Text = "Добавить загрузку";
             this.buttonAddDownloads.UseVisualStyleBackColor = true;
@@ -92,6 +94,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.buttonReloadAll);
+            this.panel2.Controls.Add(this.buttonStopAll);
             this.panel2.Controls.Add(this.button2);
             this.panel2.Controls.Add(this.button1);
             this.panel2.Controls.Add(this.buttonInfo);
@@ -107,11 +111,12 @@
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
             this.button2.Image = global::ProjectUD.Properties.Resources.stop;
-            this.button2.Location = new System.Drawing.Point(503, 6);
+            this.button2.Location = new System.Drawing.Point(149, 6);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(50, 50);
             this.button2.TabIndex = 5;
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
@@ -146,7 +151,7 @@
             this.перезапуститьЗакачкуToolStripMenuItem,
             this.удалитьToolStripMenuItem});
             this.contextMenuStripList.Name = "contextMenuStripList";
-            this.contextMenuStripList.Size = new System.Drawing.Size(201, 114);
+            this.contextMenuStripList.Size = new System.Drawing.Size(201, 92);
             this.contextMenuStripList.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripList_Opening);
             // 
             // toolStripMenuItem7
@@ -168,6 +173,12 @@
             this.перезапуститьЗакачкуToolStripMenuItem.Name = "перезапуститьЗакачкуToolStripMenuItem";
             this.перезапуститьЗакачкуToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.перезапуститьЗакачкуToolStripMenuItem.Text = "Перезапустить закачку";
+            // 
+            // удалитьToolStripMenuItem
+            // 
+            this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.удалитьToolStripMenuItem.Text = "Удалить";
             // 
             // notifyIcon1
             // 
@@ -233,11 +244,27 @@
             this.toolStripMenuItem5.Text = "Выход";
             this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
             // 
-            // удалитьToolStripMenuItem
+            // buttonStopAll
             // 
-            this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.удалитьToolStripMenuItem.Text = "Удалить";
+            this.buttonStopAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
+            this.buttonStopAll.Location = new System.Drawing.Point(413, 6);
+            this.buttonStopAll.Name = "buttonStopAll";
+            this.buttonStopAll.Size = new System.Drawing.Size(140, 50);
+            this.buttonStopAll.TabIndex = 6;
+            this.buttonStopAll.Text = "Остановить все";
+            this.toolTip.SetToolTip(this.buttonStopAll, "Остановить все активные загрузки");
+            this.buttonStopAll.UseVisualStyleBackColor = true;
+            // 
+            // buttonReloadAll
+            // 
+            this.buttonReloadAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
+            this.buttonReloadAll.Location = new System.Drawing.Point(267, 6);
+            this.buttonReloadAll.Name = "buttonReloadAll";
+            this.buttonReloadAll.Size = new System.Drawing.Size(140, 50);
+            this.buttonReloadAll.TabIndex = 7;
+            this.buttonReloadAll.Text = "Загрузить \r\nвсе";
+            this.toolTip.SetToolTip(this.buttonReloadAll, "Загрузить все незагруженные видео");
+            this.buttonReloadAll.UseVisualStyleBackColor = true;
             // 
             // listViewExDownloads
             // 
@@ -348,6 +375,8 @@
         private System.Windows.Forms.ToolStripMenuItem перезапуститьЗакачкуToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
         private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
+        private System.Windows.Forms.Button buttonStopAll;
+        private System.Windows.Forms.Button buttonReloadAll;
     }
 }
 
