@@ -337,6 +337,10 @@ namespace ProjectUD
             string _link = ListYouTubeContext[i].Link;
             Label label = new Label();
             label.Text = _path;
+            label.MouseHover += delegate(object LocalButtonSender, EventArgs e)
+            {
+                toolTip.SetToolTip(label, label.Text);
+            };
             Button buttonDel = new Button();
             buttonDel.Text = "";
             buttonDel.Image = Properties.Resources.cancel;
@@ -360,6 +364,8 @@ namespace ProjectUD
             TextBox textBox = new TextBox();
             textBox.ReadOnly = true;
             textBox.Text = _link;
+            textBox.MouseHover += delegate(object sender, EventArgs e)
+            {toolTip.SetToolTip(textBox, textBox.Text+"       _");};
             ProgressBar progressBar = new ProgressBar();
             ListYouTubeContext[i].SetProgressBarAction(
                 (Action<object, System.Net.DownloadProgressChangedEventArgs>)
@@ -393,6 +399,7 @@ namespace ProjectUD
             };
             string[] row = { _name, _path };
             var listViewItem = new ListViewItem(row);
+            
             listViewExDownloads.Items.Add(listViewItem);
             if (_completed)
             {
@@ -408,7 +415,7 @@ namespace ProjectUD
             listViewExDownloads.AddEmbeddedControl(buttonReload, 4, listViewExDownloads.Items.Count - 1);
             listViewExDownloads.AddEmbeddedControl(textBox, 2, listViewExDownloads.Items.Count - 1);
             listViewExDownloads.AddEmbeddedControl(progressBar, 3, listViewExDownloads.Items.Count - 1);
-            //listViewExDownloads.AddEmbeddedControl(label, 1, listViewExDownloads.Items.Count - 1);
+            listViewExDownloads.AddEmbeddedControl(label, 1, listViewExDownloads.Items.Count - 1);
             listViewExDownloads.Update();
             this.Top = 1;
         }
