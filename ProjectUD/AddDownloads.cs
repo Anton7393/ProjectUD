@@ -31,10 +31,10 @@ namespace ProjectUD
 
         private void buttonPaste_Click(object sender, EventArgs e)
         {
+            this.textBoxName.Focus();
             textBoxLink.Text = Clipboard.GetText();
             pictureBox2.Image = Properties.Resources.YouTube_logo_full_color;
             InspectionURL();
-            this.textBoxName.Focus();
         }
 
         private void buttonAddDownload_Click(object sender, EventArgs e)
@@ -100,7 +100,7 @@ namespace ProjectUD
 
         private void textBoxLink_Leave(object sender, EventArgs e)
         {
-            InspectionURL();
+            //InspectionURL();
         }
 
         private void textBoxLink_KeyDown(object sender, KeyEventArgs e)
