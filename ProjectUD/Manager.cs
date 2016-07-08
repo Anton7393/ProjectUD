@@ -1,37 +1,50 @@
 ﻿using System;
+using System.Net;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Threading;
 using System.Windows.Forms; 
+
 namespace ProjectUD
 {
     public partial class Manager : Form
     {
-//        private YouTubeContext _YTC;
-        //Статусы кнопок
-        private String[] states = { "stop", "reload", "open" };
-        public bool usbd = true;
-        private string button2Name = "";
+        private enum ButtonCondition
+        {
+            reload,
+            stop
+        }
+
+        private List<Downloader> downloaderList;
+        private ButtonCondition condition = ButtonCondition.stop;
+        
+
         public Manager()
         {
-            button2Name = states[0];
             InitializeComponent();
-            if (usbd) addItemsToListViewFromDB();
+            notifyIcon1.Text = "YouTube Downloader";
+            downloaderList = new List<Downloader>();
             this.Resize += new System.EventHandler(this.Manager_Resize);
+            
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = true;
             //Делаем недоступным пункты меню(отменить все закачки и стартовать все закачки)
-            contextMenuStrip1.Items[3].Enabled = false;
-            contextMenuStrip1.Items[4].Enabled = false;
+            contextMenuStrip1.Items[3].Enabled = true;
+            contextMenuStrip1.Items[4].Enabled = true;
         }
+
         private void Manager_Load(object sender, EventArgs e)
         {
-            //if (usbd)addItemsToListViewFromDB();
-            //this.button2.Image = Properties.Resources.stop;this.button1.Image = Properties.Resources.stop;
+            TableController.deleteButtonClick += buttonDelete_Click;
+            TableController.reloadButtonClick += buttonReload_Click;
+            TableController.stopButtonClick += buttonStop_Click;
+            TableController.openButtonClick += buttonOpen_Click;
+            listViewExDownloads.fillFromDB();
         }
 
         private void buttonAddDownloads_Click(object sender, EventArgs e)
@@ -40,24 +53,216 @@ namespace ProjectUD
             contextMenuStrip1.Items[1].Visible = false;
             contextMenuStrip1.Items[2].Visible = false;
             AddDownloads FormAddDownloads = new AddDownloads();
-      //      FormAddDownloads.ShowInTaskbar = false;
+            //FormAddDownloads.ShowInTaskbar = false;
             FormAddDownloads.Owner = this;
             FormAddDownloads.ShowDialog();
 
-            
-            if (FormAddDownloads.DialogResult == DialogResult.OK)
+            try
             {
-                YouTubeContext _YTC = FormAddDownloads.returnContext();
-                if (usbd) (new DataContext()).addDataToDB(_YTC);
-                addItemsToListView(_YTC, 0, true);
-                _YTC.startDownloadViaWebClient();
-                
+                if (FormAddDownloads.DialogResult == DialogResult.OK)
+                {
+                    var index = downloaderList.Count;
+                    YouTubeContext youTubeContext = FormAddDownloads.returnContext();
+                    VideoData videoData = youTubeContext.getVideoData();
+                    Downloader downloader = new Downloader(videoData);
+
+                    if (checkExistingDownloads(downloader))
+                    {
+                        MessageBox.Show("Загрузка файла с таким именем уже существует!", 
+                                        "Error!",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    downloaderList.Add(downloader);
+                    downloaderList[index].DownloadFileCompleted += DownloadFileCompleted;
+                    downloaderList[index].DownloadProgressChanged += DownloadProgressChanged;
+                    downloaderList[index].startDownload();
+                    downloaderList[index].setAsActive();
+                    listViewExDownloads.addNewDownload(videoData);
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error!",
+                                 MessageBoxButtons.YesNo,
+                                 MessageBoxIcon.Question);
             }
 
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = true;
             contextMenuStrip1.Items[2].Visible = true;
 
+        }
+
+        private void buttonDelete_Click(object sender, EventArgs e)
+        {
+            var ansver = MessageBox.Show("Удалить загруженный файл?"
+                , "Удаление загрузок", MessageBoxButtons.YesNo
+                , MessageBoxIcon.Question);
+
+            Button button = sender as Button;
+            VideoData data = button.Tag as VideoData;
+            var path = data.Path;
+            var index = TableController.getIndex(data);
+            var downIndex = downloaderIndex(index);
+
+            if ((downIndex < downloaderList.Count) && (downIndex >= 0))
+            {
+                downloaderList[downIndex].abortDownload();
+                downloaderList.RemoveAt(downIndex);
+            }
+
+            if (File.Exists(path) && (ansver == DialogResult.Yes))
+            {
+                Thread.Sleep(100);
+                File.Delete(path);
+            }
+
+            listViewExDownloads.removeDownload(index);
+        }
+
+        private void buttonStop_Click(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            VideoData data = button.Tag as VideoData;
+            var index = TableController.getIndex(data);
+            var downIndex = downloaderIndex(index);
+            var path = data.Path;
+
+            listViewExDownloads.stopDownload(index);
+            downloaderList[downIndex].stopDownload();
+            downloaderList[downIndex].setAsFailure();
+
+            Thread.Sleep(100);
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+
+        private void buttonReload_Click(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            VideoData data = button.Tag as VideoData;
+            var index = TableController.getIndex(data);
+            var downIndex = downloaderIndex(index);
+
+            listViewExDownloads.restartDownload(index);
+            downloaderList[downIndex].startDownload();
+            downloaderList[index].DownloadFileCompleted += DownloadFileCompleted;
+            downloaderList[index].DownloadProgressChanged += DownloadProgressChanged;
+        }
+
+        private void buttonOpen_Click(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            VideoData data = button.Tag as VideoData;
+
+            if (File.Exists(data.Path))
+            {
+                Process.Start(data.Path);
+            }
+            else
+            {
+                var ansver = MessageBox.Show(String.Format("Не удаётся открыть. Файл: {0} не существует или повреждён.", data.Path )
+                , "Ошибка открытия файла", MessageBoxButtons.OK
+                , MessageBoxIcon.Question);
+            }
+            
+        }
+
+        private void DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            if (e.Cancelled == false)
+            {
+                VideoData data = e.UserState as VideoData;
+                var index = TableController.getIndex(data);
+                var downIndex = downloaderIndex(index);
+
+                listViewExDownloads.completeDownload(index);
+                downloaderList.RemoveAt(downIndex);
+            }
+        }
+
+        private void DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            VideoData data = e.UserState as VideoData;
+            var index = TableController.getIndex(data);
+            var bytesReceived = (double)e.BytesReceived;
+            var totalBytesToReceive = (double)e.TotalBytesToReceive;
+            int progressPercentage = Convert.ToInt32((bytesReceived / totalBytesToReceive) * 100);
+
+            listViewExDownloads.setProgressPercentage(index, progressPercentage);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            for (var i = 0; i < downloaderList.Count; i++)
+            {
+                if (downloaderList[i].getStatus() == DownloadStatus.Active)
+                {
+                    downloaderList[i].stopDownload();
+                    downloaderList[i].setAsFailure();
+
+                    Thread.Sleep(100);
+
+                    if (File.Exists(downloaderList[i].getPath()))
+                    {
+                        File.Delete(downloaderList[i].getPath());
+                    }
+                }
+            }
+            listViewExDownloads.stopAll();     
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            foreach (var downloader in downloaderList)
+            {
+                if (downloader.getStatus() == DownloadStatus.Failure)
+                {
+                    downloader.startDownload();
+                    downloader.DownloadFileCompleted += DownloadFileCompleted;
+                    downloader.DownloadProgressChanged += DownloadProgressChanged;
+                    downloader.setAsActive();
+                }
+            }
+            listViewExDownloads.restartAll();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var ansver = MessageBox.Show("Удалить загруженные файлы?"
+                , "Удаление загрузок", MessageBoxButtons.YesNo
+                , MessageBoxIcon.Question);
+
+            var deleteList = new List<VideoData>();
+
+            while (downloaderList.Count != 0)
+            {
+                if (downloaderList[0].getStatus() == DownloadStatus.Active)
+                {
+                    downloaderList[0].abortDownload();
+                }
+                downloaderList.RemoveAt(0);
+            }
+
+            deleteList = listViewExDownloads.removeAll();
+            
+            if (ansver == DialogResult.Yes)
+            {
+                Thread.Sleep(100);
+                foreach (var element in deleteList)
+                {
+                    if (File.Exists(element.Path))
+                    {
+                        File.Delete(element.Path);
+                    }
+                }
+            }
         }
 
         private void buttonInfo_Click(object sender, EventArgs e)
@@ -72,275 +277,175 @@ namespace ProjectUD
             contextMenuStrip1.Items[0].Visible = false;
             contextMenuStrip1.Items[1].Visible = true;
             contextMenuStrip1.Items[2].Visible = true;
-
         }
 
-        private void addItemsToListViewFromDB()
+        //Отменить все
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            using (var database = new DataContext())
+            for (var i = 0; i < downloaderList.Count; i++)
             {
-                var videoData = database.getDataFromDB();//VideoDatas;
-                foreach (var videoItem in videoData)
+                if (downloaderList[i].getStatus() == DownloadStatus.Active)
                 {
-                    addItemsToListView(new YouTubeContext(videoItem.Name, videoItem.Path, videoItem.Link), 100, true);
+                    downloaderList[i].stopDownload();
+                    downloaderList[i].setAsFailure();
+
+                    Thread.Sleep(100);
+
+                    if (File.Exists(downloaderList[i].getPath()))
+                    {
+                        File.Delete(downloaderList[i].getPath());
+                    }
                 }
             }
+            listViewExDownloads.stopAll();
         }
-        private void addItemsToListView(YouTubeContext _YTC, int _proc, bool _completed = false)
+
+        //Стартовать все
+        private void toolStripMenuItem4_Click(object sender, EventArgs e)
         {
-            string _name = _YTC.Name;
-            string _path = _YTC.Path;
-            string _link = _YTC.Link;
-            Label label = new Label();
-                label.Text = _path;
-            Button buttonDel = new Button();
-                buttonDel.Text = "";
-                buttonDel.Image = Properties.Resources.cancel;
-                buttonDel.Name = "delete";
-                Action<object, EventArgs> bttnDel = delegate(object sender, EventArgs e)
-                {
-                    _YTC.stopDownloadViaWebClient();
-                    if (usbd) (new DataContext()).removeDataFromDB(_YTC);
-                    listViewExDownloads.Items.RemoveAt(listViewExDownloads.IndexItems(sender as Control));
-                };
-                buttonDel.Click += new EventHandler(bttnDel);//на кнопку отмены одного скачивания
-                this.button1.Click += new EventHandler(bttnDel);//на кнопку отмены всех скачиваний
-            
-            Button buttonReload = new Button();
-                buttonReload.Text = "";
-                buttonReload.Image = Properties.Resources.stop;
-                buttonReload.Name = states[0];//В имени статус
-            Action<int> bttnReload_if1 = delegate(int i)
+            foreach (var downloader in downloaderList)
             {
-                //int i = listViewExDownloads.IndexItems(sender as Control);
-                Button pb = listViewExDownloads.GetEmbeddedControl(4, i) as Button;
-                if (pb.Name == states[1])
+                if (downloader.getStatus() == DownloadStatus.Failure)
                 {
-                    pb.Image = Properties.Resources.stop;
-                        pb.Name = states[0];
-                        listViewExDownloads.AddEmbeddedControl(pb, 4, i);
-                        listViewExDownloads.Update();
-                        _YTC.stopDownloadViaWebClient();
-                        _YTC.startDownloadViaWebClient();
+                    downloader.startDownload();
+                    downloader.DownloadFileCompleted += DownloadFileCompleted;
+                    downloader.DownloadProgressChanged += DownloadProgressChanged;
+                    downloader.setAsActive();
                 }
-            };
-            Action<int > bttnReload_if0 = delegate(int i)
+            }
+            listViewExDownloads.restartAll();
+        }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private int downloaderIndex(int _index)
+        {
+            return downloaderList.Count - (1 + _index);
+        }
+
+        private void contextMenuStripList_Opening(object sender, CancelEventArgs e)
+        {
+            if (listViewExDownloads.SelectedItems.Count == 1)
             {
-                //int i = listViewExDownloads.IndexItems(sender as Control);
-                Button pb = listViewExDownloads.GetEmbeddedControl(4, i) as Button;
-                if (pb.Name == states[0])
+                var data = listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Tag as VideoData;
+                var status = data.Status;
+
+                if (status == DownloadStatus.Active)
                 {
-                    _YTC.stopDownloadViaWebClient();
-                    pb.Image = Properties.Resources.reload_icon;
-                    pb.Name = states[1];
-                    listViewExDownloads.AddEmbeddedControl(pb, 4, i);
-                    listViewExDownloads.Update();
+                    contextMenuStripList.Items[0].Visible = true;
+                    contextMenuStripList.Items[1].Visible = false;
+                    contextMenuStripList.Items[2].Visible = false;
+                    contextMenuStripList.Items[3].Visible = true;
+
                 }
-            };
-            buttonReload.Click += delegate(object sender, EventArgs e)
-                {//этот Action нужно подключить в два места.
-                    int i = listViewExDownloads.IndexItems(sender as Control);
-                    Button pb = listViewExDownloads.GetEmbeddedControl(4, i) as Button;
-                    //MessageBox.Show(pb.Name);
-                    if (pb.Name == states[0]) { bttnReload_if0(i); }//стоп
-                    else if (pb.Name == states[1]) { bttnReload_if1(i); }//перезагрузка
-                    else if (pb.Name == states[2])
-                    {
-                        if (System.IO.File.Exists(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text))
-                            System.Diagnostics.Process.Start(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text);
-                        else {
-                            MessageBox.Show(this, "Файл "+ '"' + listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text + '"' + "не найден.",
-                              "Файл не найден", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                    }
-                };
-            this.button2.Click += delegate(object sender, EventArgs e)
-            {
-                if (this.button2Name == states[0]) 
+                else if (status == DownloadStatus.Failure)
                 {
-                    for (int i = 0; i < this.listViewExDownloads.Items.Count; i++)
-                        bttnReload_if0(i);
+                    contextMenuStripList.Items[0].Visible = false;
+                    contextMenuStripList.Items[1].Visible = true;
+                    contextMenuStripList.Items[2].Visible = false;
+                    contextMenuStripList.Items[3].Visible = true;
+
                 }
-                else
-                    if (this.button2Name == states[1])
-                    {
-                        for (int i = 0; i < this.listViewExDownloads.Items.Count; i++)
-                            bttnReload_if1(i);
-                    }
-            };
-            TextBox textBox = new TextBox();
-                textBox.ReadOnly = true;
-                textBox.Text = _link;
-            ProgressBar progressBar = new ProgressBar();
-            _YTC.SetProgressBarAction(
-                (Action<object, System.Net.DownloadProgressChangedEventArgs>)
-                delegate(object sender, System.Net.DownloadProgressChangedEventArgs e)
-                {progressBar.Value = e.ProgressPercentage;}
-            );
-            listViewExDownloads.Items.Add(_name);
-            if (_completed)
-            {
-                //progressBar.Value = 100;
-                buttonDel.Visible = false;
-                buttonReload.Visible = false;
+                else if (status == DownloadStatus.Completed)
+                {
+                    contextMenuStripList.Items[0].Visible = false;
+                    contextMenuStripList.Items[1].Visible = false;
+                    contextMenuStripList.Items[2].Visible = true;
+                    contextMenuStripList.Items[3].Visible = true;
+                }
             }
             else
-            {
-                //progressBar.Value = _proc; //Костыль!!!
-
-            }
-
-            listViewExDownloads.AddEmbeddedControl(buttonDel, 5, listViewExDownloads.Items.Count - 1);
-            listViewExDownloads.AddEmbeddedControl(buttonReload, 4, listViewExDownloads.Items.Count - 1);
-            listViewExDownloads.AddEmbeddedControl(textBox, 2, listViewExDownloads.Items.Count - 1);
-            listViewExDownloads.AddEmbeddedControl(progressBar, 3, listViewExDownloads.Items.Count - 1);
-            listViewExDownloads.AddEmbeddedControl(label, 1, listViewExDownloads.Items.Count - 1);
-            listViewExDownloads.Update();
-        }
-        private void clearItemsToListView()
-        {
-            listViewExDownloads.Clear();
+                e.Cancel = true;
         }
 
-
-        private void ShowForm()
+        private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Show();
-            contextMenuStrip1.Items[0].Visible = false;
-            contextMenuStrip1.Items[1].Visible = true;
-
-            if (this.WindowState == FormWindowState.Minimized)
+            var index = listViewExDownloads.SelectedItems[0].Index;
+            if (index >= 0)
             {
-                this.WindowState = FormWindowState.Normal;
-                this.ShowInTaskbar = true;
+                var data = listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Tag as VideoData;
+                var downIndex = downloaderIndex(index);
+                var path = data.Path;
+
+                listViewExDownloads.stopDownload(index);
+                downloaderList[downIndex].stopDownload();
+                downloaderList[downIndex].setAsFailure();
+
+                Thread.Sleep(100);
+
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
             }
         }
 
-        private void HideForm()
+        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            contextMenuStrip1.Items[0].Visible = true;
-            contextMenuStrip1.Items[1].Visible = false;
-            notifyIcon1.ShowBalloonTip(3000);
-            this.WindowState = FormWindowState.Minimized;
-            this.Hide();
-            this.ShowInTaskbar = false;
-        }
-
-
-        private void Manager_Resize(object sender, EventArgs e)
-        {
-            if (this.WindowState == FormWindowState.Minimized)
+            var index = listViewExDownloads.SelectedItems[0].Index;
+            if (index >= 0)
             {
-                this.WindowState = FormWindowState.Minimized;
-                HideForm();
+                var downIndex = downloaderIndex(index);
+
+                listViewExDownloads.restartDownload(index);
+                downloaderList[downIndex].startDownload();
+                downloaderList[index].DownloadFileCompleted += DownloadFileCompleted;
+                downloaderList[index].DownloadProgressChanged += DownloadProgressChanged;
             }
         }
 
-        private void Manager_FormClosed(object sender, FormClosedEventArgs e)
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            notifyIcon1.Visible = false;
-            this.ShowInTaskbar = false;
-            this.Show();
-        }
-
-        private void Manager_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            e.Cancel = true;
-            if(e.Cancel == true)
-            HideForm();
-        }
-
-        //Развернуть
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            ShowForm();
-        }
-
-        //Свернуть
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            HideForm();
-        }
-
-
-        //Выход 
-        private void toolStripMenuItem5_Click(object sender, EventArgs e)
-        {
-            Application.ExitThread();
-            Application.Exit();
-        }
-
-        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
+            var index = listViewExDownloads.SelectedItems[0].Index;
+            if (index >= 0)
             {
-
-                if (this.WindowState == FormWindowState.Minimized)
-                    ShowForm();
-                else
-                    HideForm();
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                notifyIcon1.ContextMenuStrip.Show();
+                var data = listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Tag as VideoData;
+                Process.Start(data.Path);
             }
         }
 
-        private void toolStripMenuItem6_Click(object sender, EventArgs e)
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowForm();
-            contextMenuStrip1.Items[0].Visible = false;
-            contextMenuStrip1.Items[1].Visible = false;
-            contextMenuStrip1.Items[2].Visible = false;
-            AddDownloads FormAddDownloads = new AddDownloads();
-            FormAddDownloads.ShowInTaskbar = false;
-            FormAddDownloads.Owner = this;
-            FormAddDownloads.ShowDialog();
+            var index = listViewExDownloads.SelectedItems[0].Index;
+            if (index >= 0)
+            {
+                var ansver = MessageBox.Show("Удалить загруженные файлы?"
+                , "Удаление загрузок", MessageBoxButtons.YesNo
+                , MessageBoxIcon.Question);
 
-            if (FormAddDownloads.DialogResult == DialogResult.OK)
-            {
-                /*
-                _YTC = FormAddDownloads.returnContext();
-                addItemsToListView(_YTC.Name, _YTC.Path, _YTC.Link, 0, true);
-                _YTC.startDownload();
-                 */ 
-            }
-            contextMenuStrip1.Items[0].Visible = false;
-            contextMenuStrip1.Items[1].Visible = true;
-            contextMenuStrip1.Items[2].Visible = true;
-        }
+                var data = listViewExDownloads.GetEmbeddedControl(4, listViewExDownloads.SelectedItems[0].Index).Tag as VideoData;
+                var path = data.Path;
+                var downIndex = downloaderIndex(index);
 
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
+                if ((downIndex < downloaderList.Count) && (downIndex >= 0))
+                {
+                    downloaderList[downIndex].abortDownload();
+                    downloaderList.RemoveAt(downIndex);
+                }
 
-        }
-        
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (button2Name == states[0])
-            {
-                button2.Image = Properties.Resources.reload_icon;
-                button2Name = states[1];
-                //button2.Image = Properties.Resources.stop;
-                //button2Name = states[0];
-            }
-            //перезагрузка
-            else if (button2Name == states[1])
-            {
-                button2.Image = Properties.Resources.stop;
-                button2Name = states[0];
-            }
-            //открыть
-            else if (button2.Name == states[2])
-            {
-                System.Diagnostics.Process.Start(listViewExDownloads.GetEmbeddedControl(listViewExDownloads.IndexItems(sender as Control), 2).Text);
+                if (File.Exists(path) && (ansver == DialogResult.Yes))
+                {
+                    Thread.Sleep(100);
+                    File.Delete(path);
+                }
+
+                listViewExDownloads.removeDownload(index);
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private bool checkExistingDownloads(Downloader _downloader)
         {
-
+            foreach(var downloader in downloaderList)
+            {
+                if (downloader.getPath() == _downloader.getPath())
+                {
+                    return true;
+                }
+            }
+            return false;
         }
-
     }
 }

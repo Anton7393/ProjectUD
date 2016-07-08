@@ -22,12 +22,13 @@ namespace ProjectUD
 		
 		// Windows Messages
 		private const int WM_PAINT = 0x000F;
-		#endregion
 
-		/// <summary>
-		/// Structure to hold an embedded control's info
-		/// </summary>
-		private struct EmbeddedControl
+        #endregion
+
+        /// <summary>
+        /// Structure to hold an embedded control's info
+        /// </summary>
+        private struct EmbeddedControl
 		{
 			public Control Control;
 			public int Column;
@@ -277,6 +278,30 @@ namespace ProjectUD
                 }
             }
             return i;
+        }
+
+        public void setProgressPercentage(int _index, int _value)
+        {
+            foreach (EmbeddedControl ec in _embeddedControls)
+            {
+                if (ec.Row == _index && ec.Column == 3)
+                {
+                    var bar = ec.Control as ProgressBar;
+                    bar.Value = _value;
+                    return;
+                }
+            }
+
+        }
+
+        public void removeAllControls()
+        {
+            while (_embeddedControls.Count != 0)
+            {
+                EmbeddedControl ec = (EmbeddedControl)_embeddedControls[0];
+                RemoveEmbeddedControl(ec.Control);
+            }
+
         }
     }
 }

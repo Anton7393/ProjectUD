@@ -4,10 +4,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Text.RegularExpressions;
 using System.IO;
 
 namespace ProjectUD
@@ -22,15 +21,9 @@ namespace ProjectUD
         public AddDownloads()
         {
             InitializeComponent();
-      
-       //     FormManager = new Manager(); Вторая иконка из-за этого!!!
             mYouTubeContext = new YouTubeContext();
             mYouTubeContext.Name = "Video";
             comboBoxQuality.Enabled = false;
-            label2.Enabled = false;
-            label3.Enabled = false;
-            label4.Enabled = false;
-            label6.Enabled = false;
             textBoxName.Enabled = false;
             buttonAddDownload.Enabled = false;
             textBoxPath.Text = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile) + @"\Downloads";
@@ -49,6 +42,7 @@ namespace ProjectUD
             bool flsg = true;
             mYouTubeContext.Path = textBoxPath.Text;
             mYouTubeContext.Name = textBoxName.Text;
+            mYouTubeContext.Date = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             mYouTubeContext.pathBuilder();
             if (File.Exists(this.mYouTubeContext.Path))
             {
@@ -76,6 +70,12 @@ namespace ProjectUD
                             //main.AddItemListViewEx(textBoxName.Text, textBoxPath.Text, textBoxLink.Text, 0);
 
                         }
+
+                        if (!Directory.Exists(textBoxPath.Text))
+                        {
+                            Directory.CreateDirectory(textBoxPath.Text);
+                        }
+
                         mYouTubeContext.Path = textBoxPath.Text;
                         mYouTubeContext.Name = textBoxName.Text;
                         mYouTubeContext.pathBuilder();
@@ -106,7 +106,6 @@ namespace ProjectUD
         private void textBoxLink_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter) { InspectionURL(); }
-            
         }
 
         private void textBoxName_Enter(object sender, EventArgs e)
@@ -120,6 +119,7 @@ namespace ProjectUD
         private void comboBoxQuality_SelectedIndexChanged(object sender, EventArgs e)
         {
             mYouTubeContext.selectVideoQualuty(comboBoxQuality.SelectedIndex);
+            textBoxName.Text = mYouTubeContext.Name;
             buttonAddDownload.Enabled = true;
         }
 
@@ -130,6 +130,7 @@ namespace ProjectUD
 
         public void InspectionURL()
         {
+            youTubeLinkConstructor();
             try
             {
                 mYouTubeContext.extractYouTubeMeta(textBoxLink.Text);
@@ -147,10 +148,6 @@ namespace ProjectUD
                 pictureBox2.Image = Properties.Resources.YouTube_logo_full_color;
                 if (!Helper.isValidUrl(textBoxLink.Text) || !textBoxLink.Text.ToLower().Contains("www.youtube.com/watch?"))
                 {
-                    label2.Enabled = false;
-                    label3.Enabled = false;
-                    label4.Enabled = false;
-                    label6.Enabled = false;
                     comboBoxQuality.Enabled = false;
                     textBoxName.Enabled = false;
                     buttonAddDownload.Enabled = false;
@@ -163,20 +160,12 @@ namespace ProjectUD
                     pictureBox2.ImageLocation = string.Format("http://i3.ytimg.com/vi/{0}/default.jpg", Helper.GetVideoIDFromUrl(textBoxLink.Text));
                     if (pictureBox2.Image != Properties.Resources.YouTubeError || pictureBox2.Image != Properties.Resources.YouTube_logo_full_color)
                     {
-                        label2.Enabled = true;
-                        label3.Enabled = true;
-                        label4.Enabled = true;
-                        label6.Enabled = true;
                         comboBoxQuality.Enabled = true;
                         textBoxName.Enabled = true;
                         
                     }
                     else
                     {
-                        label2.Enabled = false;
-                        label3.Enabled = false;
-                        label4.Enabled = false;
-                        label6.Enabled = false;
                         textBoxName.Enabled = false;
                         comboBoxQuality.Enabled = false;
                         buttonAddDownload.Enabled = false;
@@ -185,10 +174,6 @@ namespace ProjectUD
             }
             catch (Exception ex)
             {
-                label2.Enabled = false;
-                label3.Enabled = false;
-                label4.Enabled = false;
-                label6.Enabled = false;
                 textBoxName.Enabled = false;
                 comboBoxQuality.Enabled = false;
                 buttonAddDownload.Enabled = false;
@@ -204,6 +189,42 @@ namespace ProjectUD
             }
             else
                 return false;
+        }
+
+        private void youTubeLinkConstructor()
+        {
+            string id = "";
+            string url = "";
+            string origin = textBoxLink.Text;
+            string filterfull = @"www.youtube.com/watch?v=";
+            string filtershort = @"youtu.be/";
+            Regex regfull = new Regex(filterfull);
+            Regex regshort = new Regex(filtershort);
+            bool isFull = regfull.IsMatch(origin);
+            bool isShort = regshort.IsMatch(origin);
+
+            if (isFull)
+            {
+                string pattern = @"v=(\S*)[^&]";
+                Regex regex = new Regex(pattern);
+                Match match = regex.Match(origin);
+
+                id = match.Groups[0].Value;
+                url = "https://www.youtube.com/watch?v=" + id;
+                textBoxLink.Text = url;
+            }
+            else if (isShort)
+            {
+                string pattern = @"be/(\S*)[^\&]";
+                Regex regex = new Regex(pattern);
+                Match match = regex.Match(origin);
+
+                var buffer = match.Groups[0].Value;
+                var ids = buffer.Split('/', '?');
+                id = ids[1];
+                url = "https://www.youtube.com/watch?v=" + id;
+                textBoxLink.Text = url;
+            }
         }
 
         //Удалить!

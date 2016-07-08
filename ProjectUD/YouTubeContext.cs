@@ -17,8 +17,6 @@ namespace ProjectUD
         private List<YouTubeVideo> mSortedVideoList;
         private Dictionary<string, YouTubeVideo> mVideoDictionary;
         private WebClient mClient = new WebClient();
-        private Action<object, System.Net.DownloadProgressChangedEventArgs> mActionProgressBar = delegate(object sender, System.Net.DownloadProgressChangedEventArgs e) { };
-        public void SetProgressBarAction(Action<object, System.Net.DownloadProgressChangedEventArgs> _mActionProgressBar){this.mActionProgressBar+=_mActionProgressBar;}
         
         public YouTubeContext(string Name, string Path, string Link)
         {
@@ -54,8 +52,11 @@ namespace ProjectUD
         {
             mSelectedVideo = mSortedVideoList[_index];
             Format = mSelectedVideo.Format.ToString();
+            Name = mSelectedVideo.FullName;
             Resolution = mSelectedVideo.Resolution;
             FileExtention = mSelectedVideo.FileExtension;
+            DirectLink = mSelectedVideo.Uri;
+            FormatCode = mSelectedVideo.FormatCode;
         }
 
         public void pathBuilder()
@@ -70,31 +71,30 @@ namespace ProjectUD
             Path += Name;
         }
 
-        public void startDownload()
+        public VideoData getVideoData()
         {
-            Date = DateTime.Now;
-            File.WriteAllBytes(Path, mSelectedVideo.GetBytes());
-        }
+            var data = new VideoData();
 
-        public void startDownloadViaWebClient()
-        {
-            Date = DateTime.Now;
-            this.mClient = new WebClient();
-            this.mClient.DownloadFileAsync(new Uri(mSelectedVideo.Uri), Path);
-            mClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(mActionProgressBar);
-        }
-        public void stopDownloadViaWebClient()
-        {            
-            this.mClient.CancelAsync();
+            data.Date = this.Date;
+            data.Link = this.Link;
+            data.Name = this.Name;
+            data.Path = this.Path;
+            data.DirectLink = this.DirectLink;
+            data.FormatCode = this.FormatCode;
+            data.Status = DownloadStatus.Active;
+
+            return data;
         }
 
         public List<string> ResolutionList { get; private set; }
         public string FileExtention { get; private set; }
+        public string DirectLink { get; private set; }
+        public int FormatCode { get; private set; }
         public int Resolution { get; private set; }
         public string Format { get; private set; }
-        public DateTime Date { get; private set; }
         public string Title { get; private set; }
         public string Link { get; private set; }
+        public string Date { get; set; }
         public string Path { get; set; }
         public string Name { get; set; }    
 
@@ -137,11 +137,6 @@ namespace ProjectUD
             newName += FileExtention;
 
             return newName;
-        }
-
-        private void addDataToDB()
-        {
-            throw new NotImplementedException();
         }
 
         private bool isMainStreamVideoFormat(int _formatCode)

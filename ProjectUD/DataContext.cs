@@ -7,14 +7,23 @@ using System.Data.Entity;
 
 namespace ProjectUD
 {
-    class VideoData
+    public enum DownloadStatus
+    {
+        Active,
+        Failure,
+        Completed
+    }
+
+    public class VideoData
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
         public string Link { get; set; }
-        public int Progress { get; set; }
         public string Date { get; set; }
+        public int FormatCode { get; set; }
+        public string DirectLink { get; set; }
+        public DownloadStatus Status { get; set; }
     }
 
     class DataContext : DbContext
@@ -25,33 +34,34 @@ namespace ProjectUD
 
         }
 
-        public void addDataToDB(YouTubeContext _youTubeContext, int _progress = 100)
+        public void addDataToDB(VideoData _videoData)
         {
-            VideoData data = new VideoData();
-            data.Link = _youTubeContext.Link;
-            data.Name = _youTubeContext.Name;
-            data.Path = _youTubeContext.Path;
-            data.Date = _youTubeContext.Date.ToString("yyyy-MM-dd HH:mm:ss");
-            data.Progress = _progress;
-
-            this.VideoDatas.Add(data);
+            this.VideoDatas.Add(_videoData);
             this.SaveChanges();
         }
 
-        public void removeDataFromDB(YouTubeContext _youTubeContext)
+        public void removeDataFromDB(VideoData _videoData)
         {
-            var itemToRemove = this.VideoDatas.SingleOrDefault(row => row.Date == _youTubeContext.Date.ToString("yyyy-MM-dd HH:mm:ss"));
+            var infoToRemove = _videoData.Date;
+            var itemToRemove = this.VideoDatas.Where(row => row.Date == infoToRemove);
 
             if (itemToRemove != null)
             {
-                this.VideoDatas.Remove(itemToRemove);
+                this.VideoDatas.RemoveRange(itemToRemove);
                 this.SaveChanges();
             }
         }
 
-        public DbSet<VideoData> getDataFromDB()
+        public List<VideoData> getDataFromDB()
         {
-            return VideoDatas;
+            List<VideoData> tempList = new List<VideoData>();
+            var datas = this.VideoDatas.OrderByDescending(p => p.Date);
+
+            foreach (var data in datas)
+            {
+                tempList.Add(data);
+            }
+            return tempList;
         }
 
         public void clearDB()
